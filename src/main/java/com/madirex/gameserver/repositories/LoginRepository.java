@@ -5,5 +5,5 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LoginRepository extends JpaRepository<Login, String> {
-    Page<Login> findByUserId(Pageable pageable, String userId);
+    Page<Login> findByUserId(Pageable pageable, String user);
 }

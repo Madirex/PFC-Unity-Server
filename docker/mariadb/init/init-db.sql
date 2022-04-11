@@ -6,6 +6,7 @@ create table login
     id_user varchar(255) not null,
     primary key (id)
 ) engine=InnoDB;
+
 create table user_roles
 (
     user_id varchar(255) not null,

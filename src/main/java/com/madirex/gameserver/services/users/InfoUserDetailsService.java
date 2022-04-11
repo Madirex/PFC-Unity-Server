@@ -17,8 +17,8 @@ public class InfoUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username + " no encontrado"));
     }
 
-    public UserDetails loadUserById(String userId) {
-        return userService.findUserById(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("Usuario con id: " + userId + " no encontrado"));
+    public UserDetails loadUserById(String user) {
+        return userService.findUserById(user)
+                .orElseThrow(() -> new UsernameNotFoundException("Usuario con id: " + user + " no encontrado"));
     }
 }

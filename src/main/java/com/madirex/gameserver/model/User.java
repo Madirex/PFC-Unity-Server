@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -39,6 +40,10 @@ public class User implements UserDetails {
     private Set<Login> logins;
 
     private Set<UserRole> roles;
+
+    private List<Item> inventory;
+
+    private Set<Score> scores;
 
     public User(String username, String password, String email, Set<Login> logins, Set<UserRole> roles) {
         this.id = UUID.randomUUID().toString();
@@ -106,6 +111,26 @@ public class User implements UserDetails {
 
     public void setRoles(Set<UserRole> roles) {
         this.roles = roles;
+    }
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
+    public List<Item> getInventory() {
+        return inventory;
+    }
+
+    public void setInventory(List<Item> inventory) {
+        this.inventory = inventory;
+    }
+
+    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
+    public Set<Score> getScores() {
+        return scores;
+    }
+
+    public void setScores(Set<Score> scores) {
+        this.scores = scores;
     }
 
     @Transient
