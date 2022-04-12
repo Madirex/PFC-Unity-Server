@@ -24,13 +24,13 @@ public class Score {
     private User user;
 
     @Column(nullable = false)
-    private Level level;
+    private int level;
 
     private int amount;
 
     private LocalDateTime date;
 
-    public Score(User user, Level level, int amount, LocalDateTime date) {
+    public Score(User user, int level, int amount, LocalDateTime date) {
         this.id = UUID.randomUUID().toString();
         this.user = user;
         this.level = level;
@@ -57,13 +57,12 @@ public class Score {
     public void setUser(User user) {
         this.user = user;
     }
-    @ManyToOne
-    @JoinColumn(name = "level", referencedColumnName = "id", nullable = false)
-    public Level getLevel() {
+
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
