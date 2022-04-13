@@ -57,17 +57,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/name/{usename}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/email/{email}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/").permitAll()
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/login").permitAll()
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/me").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/").permitAll()
+                //.antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN") //TODO : ADD?
+                //.antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN") //TODO : ADD?
                 //.antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/create").hasAnyRole("PLAYER", "ADMIN") //TODO: deshabilitado, necesario?
 
                 //Login
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/logins/").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/logins/{id}").hasRole("ADMIN")
 
+                //Item
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/item/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/item/").hasRole("ADMIN")
+
+                //Score
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
+
+                //Shop
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/score/").hasRole("ADMIN")
+
+                //Final
                 .anyRequest().authenticated();
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }

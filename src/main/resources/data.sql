@@ -1,3 +1,4 @@
+-- DROP DATABASE IF EXISTS gameserver;
 /* Usuario y Login */
 CREATE TABLE login
 (
@@ -39,18 +40,18 @@ CREATE TABLE item
 (
     id          varchar(255) not null,
     user        varchar(255),
-    shopId      varchar(255),
+    shop_id      varchar(255),
     name        varchar(255),
     price       int,
-    itemType    varchar(255),
-    amountPower double,
+    item_type    varchar(255),
+    amount_power double,
     primary key (id)
 ) engine=InnoDB;
 
 CREATE TABLE shop
 (
     id       varchar(255) not null,
-    shopName varchar(255),
+    shop_name varchar(255),
     primary key (id)
 ) engine=InnoDB;
 
@@ -71,9 +72,9 @@ ALTER TABLE user_roles
 ALTER TABLE login
     ADD CONSTRAINT FKddrmlhg56oaq3coq9xohjulr4 FOREIGN KEY (id_user) REFERENCES users (id);
 ALTER TABLE shop
-    ADD CONSTRAINT UK_h4rqgjwnqidx6mvj4i22dxwxe UNIQUE (shopName);
+    ADD CONSTRAINT UK_h4rqgjwnqidx6mvj4i22dxwxe UNIQUE (shop_name);
 ALTER TABLE item
-    ADD CONSTRAINT FK5k0oem3ypbsnpc0kt1htx37w4 FOREIGN KEY (shopId) REFERENCES shop (id);
+    ADD CONSTRAINT FK5k0oem3ypbsnpc0kt1htx37w4 FOREIGN KEY (shop_id) REFERENCES shop (id);
 ALTER TABLE item
     ADD CONSTRAINT FKmlrfgone1e43v2q6qrtjvb9jh FOREIGN KEY (user) REFERENCES users (id);
 ALTER TABLE score
@@ -91,40 +92,40 @@ VALUES ('82b5398e-c1cf-4282-a253-8d8c74938805', /*id*/
         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
         1, /*level*/
         500, /*amount*/
-        '2022 - 02 - 01 09:14:00.04'); /*date*/
+        '2022-02-01 09:14:00.04'); /*date*/
 
 INSERT INTO score (id, user, level, amount, date)
 VALUES ('eecd076e-c463-4eec-a798-1cfc07a1ffb8', /*id*/
         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
         2, /*level*/
         1000, /*amount*/
-        '2022 - 02 - 13 09:57:00.07');
+        '2022-02-13 09:57:00.07');
 /*date*/
 
 /* Crear tiendas de prueba */
-INSERT INTO shop (id, shopName)
+INSERT INTO shop (id, shop_name)
 VALUES ('a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*id*/
-        'Tienda 1'); /*shopName*/
-INSERT INTO shop (id, shopName)
+        'Tienda 1'); /*shop_name*/
+INSERT INTO shop (id, shop_name)
 VALUES ('c2e04e7c-97a3-428f-aaeb-86c14b3d94c8', /*id*/
         'Tienda 2');
-/*shopName*/
+/*shop_name*/
 
 /* Crear ítems de prueba */
-INSERT INTO item (id, user, shopId, name, price, itemType, amountPower)
+INSERT INTO item (id, user, shop_id, name, price, item_type, amount_power)
 VALUES ('d6eef0f1-8ce4-4d7d-8c4d-250917def843', /*id*/
         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
-        'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shopId*/
+        'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop_id*/
         'Pistola', /*name*/
         100, /*price*/
-        'WEAPON', /*itemType*/
-        10.0); /*amountPower*/
+        'WEAPON', /*item_type*/
+        10.0); /*amount_power*/
 
-INSERT INTO item (id, user, shopId, name, price, itemType, amountPower)
+INSERT INTO item (id, user, shop_id, name, price, item_type, amount_power)
 VALUES ('e9cb4fa0-0b77-4665-957b-d52d33123fda', /*id*/
         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
-        'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shopId*/
+        'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop_id*/
         'Armadura cabeza', /*name*/
         200, /*price*/
-        'SHIELD', /*itemType*/
-        5.5); /*amountPower*/
+        'SHIELD', /*item_type*/
+        5.5); /*amount_power*/
