@@ -23,8 +23,8 @@ public class ShopService {
         return shopRepository.findByNameIgnoreCase(name);
     }
 
-    public List<Shop> findByNameContainsIgnoreCase(String username) {
-        return shopRepository.findByNameContainsIgnoreCase(username);
+    public List<Shop> findByNameContainsIgnoreCase(String shopName) {
+        return shopRepository.findByNameContainsIgnoreCase(shopName);
     }
 
     public List<Shop> findAll() {

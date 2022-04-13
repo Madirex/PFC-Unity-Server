@@ -103,13 +103,13 @@ public class UserController {
     })
     @GetMapping("/name/{username}/level/{level}")
     public ResponseEntity<?> findScoreByUsernameAndLevel(@PathVariable String username, @PathVariable String level) {
-        //TODO: Terminar de implementar entrypoint
 //        User user = userService.findByUsernameIgnoreCase(username).orElse(null);
 //        if (user == null) {
 //            throw new GeneralNotFoundException(username, "No se ha encontrado el usuario con el username solicitado");
 //        } else {
 //            return ResponseEntity.ok(userMapper.toDTO(user));
 //        }
+        return null; //TODO: Terminar de implementar entrypoint
     }
 
     @ApiOperation(value = "Obtener un usuario por email", notes = "Obtiene un usuario en base al email")
