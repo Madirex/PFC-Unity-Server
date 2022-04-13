@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,9 +39,6 @@ public class ShopController {
     ) {
         List<Shop> shops;
         try {
-            if (searchQuery.isPresent())
-                shops = shopService.findByNameContainsIgnoreCase(searchQuery.get());
-            else
                 shops = shopService.findAll();
             return ResponseEntity.ok(shopMapper.toDTO(shops));
         } catch (Exception e) {
@@ -60,21 +56,6 @@ public class ShopController {
         Shop shop = shopService.findById(id).orElse(null);
         if (shop == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado la tienda con la id solicitada");
-        } else {
-            return ResponseEntity.ok(shopMapper.toDTO(shop));
-        }
-    }
-
-    @ApiOperation(value = "Obtener una tienda por su nombre", notes = "Obtiene una tienda en base a su nombre")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = ShopDTO.class),
-            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
-    })
-    @GetMapping("/name/{name}")
-    public ResponseEntity<?> findByName(@PathVariable String name) {
-        Shop shop = shopService.findByNameIgnoreCase(name).orElse(null);
-        if (shop == null) {
-            throw new GeneralNotFoundException(name, "No se ha encontrado el nombre de la tienda");
         } else {
             return ResponseEntity.ok(shopMapper.toDTO(shop));
         }

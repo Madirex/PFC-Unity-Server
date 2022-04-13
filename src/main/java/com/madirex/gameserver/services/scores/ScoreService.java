@@ -18,14 +18,6 @@ import java.util.Optional;
 public class ScoreService {
     private final ScoreRepository scoreRepository;
 
-    public Optional<Score> findByNameIgnoreCase(String name) {
-        return scoreRepository.findByNameIgnoreCase(name);
-    }
-
-    public List<Score> findByNameContainsIgnoreCase(String username) {
-        return scoreRepository.findByNameContainsIgnoreCase(username);
-    }
-
     public List<Score> findAll() {
         return scoreRepository.findAll();
     }
