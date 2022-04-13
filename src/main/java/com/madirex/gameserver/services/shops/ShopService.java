@@ -6,7 +6,6 @@ import com.madirex.gameserver.repositories.ShopRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,15 +16,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShopService {
     private final ShopRepository shopRepository;
-    private final PasswordEncoder passwordEncoder;
-
-    public Optional<Shop> findByNameIgnoreCase(String name) {
-        return shopRepository.findByNameIgnoreCase(name);
-    }
-
-    public List<Shop> findByNameContainsIgnoreCase(String shopName) {
-        return shopRepository.findByNameContainsIgnoreCase(shopName);
-    }
 
     public List<Shop> findAll() {
         return shopRepository.findAll();
