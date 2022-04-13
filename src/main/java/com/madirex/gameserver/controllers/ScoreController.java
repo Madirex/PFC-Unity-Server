@@ -17,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping(APIConfig.API_PATH + "/score")
@@ -34,15 +33,10 @@ public class ScoreController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll(
-            @RequestParam("searchQuery") Optional<String> searchQuery //TODO: score de un jugador concreto
-    ) {
+    public ResponseEntity<?> findAll() {
         List<Score> scores;
         try {
-            if (searchQuery.isPresent())
-                scores = scoreService.findByNameContainsIgnoreCase(searchQuery.get());
-            else
-                scores = scoreService.findAll();
+            scores = scoreService.findAll();
             return ResponseEntity.ok(scoreMapper.toDTO(scores));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");

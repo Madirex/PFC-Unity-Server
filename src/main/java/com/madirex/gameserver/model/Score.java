@@ -67,7 +67,7 @@ public class Score {
     }
 
     @NotBlank(message = "La cantidad de score no puede estar vacío")
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
