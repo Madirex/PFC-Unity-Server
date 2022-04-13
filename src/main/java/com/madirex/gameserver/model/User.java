@@ -45,13 +45,16 @@ public class User implements UserDetails {
 
     private Set<Score> scores;
 
-    public User(String username, String password, String email, Set<Login> logins, Set<UserRole> roles) {
+    public User(String username, String password, String email, Set<Login> logins, Set<UserRole> roles,
+                List<Item> inventory, Set<Score> scores) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
         this.email = email;
         this.logins = logins;
         this.roles = roles;
+        this.inventory = inventory;
+        this.scores = scores;
     }
 
     @Id
