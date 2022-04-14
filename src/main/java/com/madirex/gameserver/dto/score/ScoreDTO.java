@@ -16,8 +16,8 @@ import java.util.Date;
 @AllArgsConstructor
 public class ScoreDTO {
     private String id;
-    @NotBlank(message = "El usuario no puede ser vacío")
-    private User user;
+    //@NotBlank(message = "El usuario no puede ser vacío")
+    //private User user;
     @NotNull(message = "El nivel no puede ser nulo")
     private int level;
     @NotNull(message = "La cantidad no puede ser nula")

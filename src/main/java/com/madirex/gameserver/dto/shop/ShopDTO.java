@@ -1,5 +1,6 @@
 package com.madirex.gameserver.dto.shop;
 
+import com.madirex.gameserver.dto.items.ItemDTO;
 import com.madirex.gameserver.model.Item;
 import lombok.*;
 
@@ -20,5 +21,5 @@ public class ShopDTO {
     private String shopName;
 
     @NotNull(message = "Los items no pueden ser nulos")
-    private List<Item> items;
+    private List<ItemDTO> items;
 }

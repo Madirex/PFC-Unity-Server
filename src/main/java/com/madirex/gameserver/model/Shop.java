@@ -52,7 +52,7 @@ public class Shop {
     }
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shopId", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shop", cascade = CascadeType.REMOVE)
     public List<Item> getItems() {
         return items;
     }

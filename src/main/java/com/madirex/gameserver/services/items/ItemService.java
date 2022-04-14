@@ -1,6 +1,7 @@
 package com.madirex.gameserver.services.items;
 
 import com.madirex.gameserver.dto.items.CreateItemDTO;
+import com.madirex.gameserver.mapper.UserMapper;
 import com.madirex.gameserver.model.Item;
 import com.madirex.gameserver.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class ItemService {
     }
 
     public Item save(CreateItemDTO newItem) {
-        Item item = new Item(newItem.getUser(), newItem.getShopId(), newItem.getName(), newItem.getPrice(),
+        Item item = new Item(newItem.getUser(), newItem.getShop(), newItem.getName(), newItem.getPrice(),
                 newItem.getItemType(), newItem.getAmountPower());
         try {
             return itemRepository.save(item);
