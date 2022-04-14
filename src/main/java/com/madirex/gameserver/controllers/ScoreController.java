@@ -1,7 +1,6 @@
 package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.dto.score.CreateScoreDTO;
 import com.madirex.gameserver.dto.score.ScoreDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
@@ -56,16 +55,6 @@ public class ScoreController {
         } else {
             return ResponseEntity.ok(scoreMapper.toDTO(score));
         }
-    }
-
-    @ApiOperation(value = "Crear una puntuación", notes = "Crea una puntación")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Created", response = ScoreDTO.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
-    })
-    @PostMapping("/")
-    public ScoreDTO newScore(@RequestBody CreateScoreDTO newScore) {
-        return scoreMapper.toDTO(scoreService.save(newScore));
     }
 
 }

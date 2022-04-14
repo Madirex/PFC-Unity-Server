@@ -16,8 +16,6 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateUserDTO {
-    @NotBlank(message = "El id no puede estar vacío")
-    @NotNull(message = "El id no puede ser nulo")
     private String id;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío")

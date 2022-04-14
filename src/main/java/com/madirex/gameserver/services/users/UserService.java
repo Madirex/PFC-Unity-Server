@@ -11,10 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -51,7 +48,7 @@ public class UserService {
             Set<UserRole> defaultRoles = new HashSet<>();
             defaultRoles.add(UserRole.PLAYER);
             User user = User.builder()
-                    .id(newUser.getId())
+                    .id(UUID.randomUUID().toString())
                     .username(newUser.getUsername())
                     .password(passwordEncoder.encode(newUser.getPassword()))
                     .email(newUser.getEmail())

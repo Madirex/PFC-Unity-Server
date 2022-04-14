@@ -1,7 +1,6 @@
 package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.dto.shop.CreateShopDTO;
 import com.madirex.gameserver.dto.shop.ShopDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
@@ -59,16 +58,6 @@ public class ShopController {
         } else {
             return ResponseEntity.ok(shopMapper.toDTO(shop));
         }
-    }
-
-    @ApiOperation(value = "Crear una tienda", notes = "Crea una tienda")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Created", response = ShopDTO.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
-    })
-    @PostMapping("/")
-    public ShopDTO newShop(@RequestBody CreateShopDTO newShop) {
-        return shopMapper.toDTO(shopService.save(newShop));
     }
 
 }

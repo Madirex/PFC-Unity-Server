@@ -1,6 +1,5 @@
 package com.madirex.gameserver.services.shops;
 
-import com.madirex.gameserver.dto.shop.CreateShopDTO;
 import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.repositories.ShopRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,12 +28,4 @@ public class ShopService {
         return shopRepository.findById(shop);
     }
 
-    public Shop save(CreateShopDTO newShop) {
-        Shop shop = new Shop(newShop.getShopName(), newShop.getItems());
-        try {
-            return shopRepository.save(shop);
-        } catch (DataIntegrityViolationException ex) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El shop ya existe");
-        }
-    }
 }

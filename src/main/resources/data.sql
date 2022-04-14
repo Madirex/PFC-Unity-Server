@@ -1,4 +1,4 @@
--- -- DROP DATABASE IF EXISTS gameserver;
+-- -- DROP DATABASE IF EXISTS gameserver; /* ONLY ON RESET PURPOSES (need restart and comment this line also)*/
 -- /* Usuario y Login */
 -- CREATE TABLE login
 -- (
@@ -134,5 +134,5 @@
 --         'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop*/
 --         'Armadura cabeza', /*name*/
 --         200, /*price*/
---         'SHIELD', /*item_type*/
+--         'ARMOR', /*item_type*/
 --         5.5); /*amount_power*/
