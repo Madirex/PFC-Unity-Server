@@ -1,7 +1,6 @@
 package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.dto.items.CreateItemDTO;
 import com.madirex.gameserver.dto.items.ItemDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
@@ -59,15 +58,5 @@ public class ItemController {
         } else {
             return ResponseEntity.ok(itemMapper.toDTO(item));
         }
-    }
-
-    @ApiOperation(value = "Crear un ítem", notes = "Crea un ítem")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Created", response = ItemDTO.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
-    })
-    @PostMapping("/")
-    public ItemDTO newItem(@RequestBody CreateItemDTO newItem) {
-        return itemMapper.toDTO(itemService.save(newItem));
     }
 }

@@ -1,6 +1,5 @@
 package com.madirex.gameserver.mapper;
 
-import com.madirex.gameserver.dto.items.CreateItemDTO;
 import com.madirex.gameserver.dto.items.ItemDTO;
 import com.madirex.gameserver.model.Item;
 import lombok.RequiredArgsConstructor;
@@ -17,14 +16,6 @@ public class ItemMapper {
 
     public ItemDTO toDTO(Item item) {
         return modelMapper.map(item, ItemDTO.class);
-    }
-
-    public Item fromDTO(CreateItemDTO itemDTO) {
-        return modelMapper.map(itemDTO, Item.class);
-    }
-
-    public Item fromDTOCreate(CreateItemDTO itemDTO) {
-        return modelMapper.map(itemDTO, Item.class);
     }
 
     public List<ItemDTO> toDTO(List<Item> items) {
