@@ -1,21 +1,14 @@
 package com.madirex.gameserver.model;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.util.Collection;
-import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Entity
 @Builder
@@ -30,7 +23,7 @@ public class Item {
     private User user;
 
     @Column(nullable = true)
-    private String shopId;
+    private Shop shop;
 
     private String name;
 
@@ -40,10 +33,10 @@ public class Item {
 
     private double amountPower;
 
-    public Item(User user, String shopId, String name, int price, ItemType itemType, double amountPower) {
+    public Item(User user, Shop shop, String name, int price, ItemType itemType, double amountPower) {
         this.id = UUID.randomUUID().toString();
         this.user = user;
-        this.shopId = shopId;
+        this.shop = shop;
         this.name = name;
         this.price = price;
         this.itemType = itemType;
@@ -70,12 +63,14 @@ public class Item {
         this.user = user;
     }
 
-    public String getShopId() {
-        return shopId;
+    @ManyToOne
+    @JoinColumn(name = "shop", referencedColumnName = "id", nullable = false)
+    public Shop getShop() {
+        return shop;
     }
 
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
+    public void setShop(Shop shop) {
+        this.shop = shop;
     }
 
     @NotBlank(message = "El nombre del ítem no puede estar vacío")

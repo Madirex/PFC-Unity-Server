@@ -1,6 +1,7 @@
 package com.madirex.gameserver.services.scores;
 
 import com.madirex.gameserver.dto.score.CreateScoreDTO;
+import com.madirex.gameserver.mapper.ItemMapper;
 import com.madirex.gameserver.model.Score;
 import com.madirex.gameserver.repositories.ScoreRepository;
 import lombok.RequiredArgsConstructor;
