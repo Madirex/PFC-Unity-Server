@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(APIConfig.API_PATH + "/score")
@@ -32,10 +33,30 @@ public class ScoreController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> findAll(
+            @RequestParam("level") Optional<String> level,
+            @RequestParam("user") Optional<String> user
+    ) {
         List<Score> scores;
         try {
-            scores = scoreService.findAll();
+            if (level.isPresent()){
+                try {
+                    int num = Integer.parseInt(level.get()); //TODO: REMOVE
+                    if (user.isPresent()){
+                        scores = scoreService.findAllByLevelAndUserOrderByLevel(level.get(), user.get());
+                    }else{
+                        scores = scoreService.findAllByLevelOrderByAmountDesc(num);
+                    }
+                } catch (final NumberFormatException e) {
+                    throw new GeneralBadRequestException("Selección de Datos", "el nivel introducido debe de ser un número entero");
+                }
+            }else{
+                if(user.isPresent()){
+                    scores = scoreService.findAllByUserOrderByLevel(user.get());
+                }else{
+                    scores = scoreService.findAll();
+                }
+            }
             return ResponseEntity.ok(scoreMapper.toDTO(scores));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");

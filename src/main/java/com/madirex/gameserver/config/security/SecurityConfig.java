@@ -55,14 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Users
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/name/{usename}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/name/{username}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/email/{email}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/me").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/").permitAll()
-                //.antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN") //TODO : ADD?
-                //.antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN") //TODO : ADD?
-                //.antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/create").hasAnyRole("PLAYER", "ADMIN") //TODO: deshabilitado, necesario?
 
                 //Login
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/logins/").hasRole("ADMIN")
@@ -82,6 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 //Final
                 .anyRequest().authenticated();
+
         http.addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
