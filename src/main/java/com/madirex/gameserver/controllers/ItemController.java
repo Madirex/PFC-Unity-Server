@@ -2,10 +2,12 @@ package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
 import com.madirex.gameserver.dto.items.ItemDTO;
+import com.madirex.gameserver.dto.shop.ShopDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ItemMapper;
 import com.madirex.gameserver.model.Item;
+import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.repositories.ItemRepository;
 import com.madirex.gameserver.services.items.ItemService;
 import io.swagger.annotations.ApiOperation;
@@ -57,6 +59,27 @@ public class ItemController {
             throw new GeneralNotFoundException(id, "No se ha encontrado el ítem con la id solicitada");
         } else {
             return ResponseEntity.ok(itemMapper.toDTO(item));
+        }
+    }
+
+    @ApiOperation(value = "Eliminar un ítem", notes = "Elimina un ítem en base a su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ItemDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            Item item = itemService.findItemById(id).orElse(null);
+            if (item == null) {
+                throw new GeneralNotFoundException("id: " + id, "error al intentar borrar el ítem con id " + id);
+            } else {
+                itemService.deleteItem(item);
+                return ResponseEntity.ok(itemMapper.toDTO(item));
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar el ítem - " + e.getMessage());
         }
     }
 }

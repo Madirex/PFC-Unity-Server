@@ -1,6 +1,7 @@
 package com.madirex.gameserver.services.items;
 
 import com.madirex.gameserver.model.Item;
+import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -26,5 +27,10 @@ public class ItemService {
 
     public Optional<Item> findItemById(String item) {
         return itemRepository.findById(item);
+    }
+
+    public Item deleteItem(Item item) {
+        itemRepository.delete(item);
+        return item;
     }
 }

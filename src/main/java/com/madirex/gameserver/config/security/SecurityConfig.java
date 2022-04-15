@@ -68,14 +68,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Item
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/item/").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
 
                 //Score
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER", "ADMIN")
 
                 //Shop
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/shop/").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/shop/{id}").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/shop/{id}").hasRole("ADMIN")
 
                 //Final
                 .anyRequest().authenticated();

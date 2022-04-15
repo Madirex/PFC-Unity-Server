@@ -60,4 +60,25 @@ public class ShopController {
         }
     }
 
+    @ApiOperation(value = "Eliminar una tienda", notes = "Elimina una tienda en base a su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ShopDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            Shop shop = shopService.findShopById(id).orElse(null);
+            if (shop == null) {
+                throw new GeneralNotFoundException("id: " + id, "error al intentar borrar la tienda con la id " + id);
+            } else {
+                shopService.deleteShop(shop);
+                return ResponseEntity.ok(shopMapper.toDTO(shop));
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar la tienda - " + e.getMessage());
+        }
+    }
+
 }

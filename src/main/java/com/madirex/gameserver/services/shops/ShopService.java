@@ -28,4 +28,9 @@ public class ShopService {
         return shopRepository.findById(shop);
     }
 
+    public Shop deleteShop(Shop shop) {
+        shopRepository.delete(shop);
+        return shop;
+    }
+
 }
