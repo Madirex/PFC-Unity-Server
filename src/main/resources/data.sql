@@ -102,6 +102,20 @@
 --         '2022-02-01 09:14:00.04'); /*date*/
 --
 -- INSERT INTO score (id, user, level, amount, date)
+-- VALUES ('ab5ecc7a-da86-483e-8c31-7f04834489cb', /*id*/
+--         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
+--         1, /*level*/
+--         1300, /*amount*/
+--         '2022-03-13 11:58:00.07');
+--
+-- INSERT INTO score (id, user, level, amount, date)
+-- VALUES ('538d36f1-e89e-40d3-a5e8-f0fc3e288592', /*id*/
+--         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
+--         1, /*level*/
+--         200, /*amount*/
+--         '2022-04-05 07:32:00.07');
+--
+-- INSERT INTO score (id, user, level, amount, date)
 -- VALUES ('eecd076e-c463-4eec-a798-1cfc07a1ffb8', /*id*/
 --         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
 --         2, /*level*/

@@ -96,22 +96,6 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "Obtener una puntuación de un usuario y un nivel", notes = "Obtiene puntuación en base al username y nivel")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
-            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
-    })
-    @GetMapping("/name/{username}/level/{level}")
-    public ResponseEntity<?> findScoreByUsernameAndLevel(@PathVariable String username, @PathVariable String level) {
-//        User user = userService.findByUsernameIgnoreCase(username).orElse(null);
-//        if (user == null) {
-//            throw new GeneralNotFoundException(username, "No se ha encontrado el usuario con el username solicitado");
-//        } else {
-//            return ResponseEntity.ok(userMapper.toDTO(user));
-//        }
-        return null; //TODO: Terminar de implementar entrypoint
-    }
-
     @ApiOperation(value = "Obtener un usuario por email", notes = "Obtiene un usuario en base al email")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -171,19 +155,6 @@ public class UserController {
     public UserDTO newUser(@RequestBody CreateUserDTO newUser) {
         return userMapper.toDTO(userService.save(newUser));
     }
-
-//    @PostMapping(value = "/create") //TODO: disabled, esto está mal? eliminarlo? es necesario?
-//    public ResponseEntity<?> newUser(@RequestPart("user") CreateUserDTO createUserDTO) {
-//
-//        User user = userMapper.fromDTOCreate(createUserDTO); //TODO: esto no se está usando, el /create funciona??
-//
-//        try {
-//            User inserted = userService.save(createUserDTO);
-//            return ResponseEntity.ok(userMapper.toDTO(inserted));
-//        } catch (GeneralNotFoundException ex) {
-//            throw new GeneralBadRequestException("Insertar", "Error al insertar el usuario. Campos incorrectos");
-//        }
-//    }
 
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(User user, String jwtToken) {
         return JwtUserResponse
