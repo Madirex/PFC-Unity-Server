@@ -65,8 +65,8 @@ public class Login {
         return instant;
     }
 
-    public void setInstant(Date instance) {
-        this.instant = instance;
+    public void setInstant(Date instant) {
+        this.instant = instant;
     }
 
     @ManyToOne

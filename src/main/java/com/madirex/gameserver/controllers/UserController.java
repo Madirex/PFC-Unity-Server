@@ -127,7 +127,7 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
-    @ApiOperation(value = "Obtener un usuario", notes = "Obtiene un usuario que esta logueado")
+    @ApiOperation(value = "Actualizar usuario", notes = "Actualiza el usuario logueado")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserModifyDTO.class),
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)

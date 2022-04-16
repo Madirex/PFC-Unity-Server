@@ -8,6 +8,7 @@ import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ItemMapper;
 import com.madirex.gameserver.model.Item;
+import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.repositories.ItemRepository;
 import com.madirex.gameserver.services.items.ItemService;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +16,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -80,6 +82,21 @@ public class ItemController {
             }
         } catch (Exception e) {
             throw new GeneralBadRequestException("Actualizar", "Error al actualizar el ítem: " + e.getMessage());
+        }
+    }
+
+    @ApiOperation(value = "Comprar el ítem", notes = "Opción de compra del ítem para el jugador")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ItemDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
+    })
+    @PutMapping("/buy/{id}")
+    public ResponseEntity<?> mePut(@AuthenticationPrincipal User user, @PathVariable String id) {
+        try {
+            Item created = itemService.buyItem(id, user);
+            return ResponseEntity.ok(itemMapper.toDTO(created));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Comprar ítem", "Error de usuario al intentar comprar un ítem: " + e.getMessage());
         }
     }
 
