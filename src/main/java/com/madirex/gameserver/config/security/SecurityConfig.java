@@ -55,9 +55,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Users
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/name/{username}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/email/{email}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/me").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/users/me").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/login").permitAll()
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/").permitAll()
 
@@ -68,14 +70,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //Item
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/item/").hasRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/item/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
 
                 //Score
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER")
 
                 //Shop
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/shop/").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/shop/").hasAnyRole("ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/shop/{id}").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/shop/{id}").hasRole("ADMIN")
 

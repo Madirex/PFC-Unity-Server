@@ -1,12 +1,9 @@
 package com.madirex.gameserver.dto.shop;
 
-import com.madirex.gameserver.dto.items.ItemDTO;
 import com.madirex.gameserver.model.Item;
 import lombok.*;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
@@ -14,12 +11,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ShopDTO {
-    private String id;
-
+public class CreateShopDTO {
     @NotBlank(message = "El nombre de la tienda no puede estar vacío")
     private String shopName;
-
-    @NotNull(message = "Los ítems no pueden ser nulos")
-    private List<ItemDTO> items;
 }

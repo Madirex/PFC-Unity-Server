@@ -1,13 +1,9 @@
 package com.madirex.gameserver.dto.score;
 
-import com.madirex.gameserver.dto.user.LoginUserDTO;
-import com.madirex.gameserver.model.User;
 import lombok.*;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Getter
 @Setter

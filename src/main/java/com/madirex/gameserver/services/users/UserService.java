@@ -1,6 +1,10 @@
 package com.madirex.gameserver.services.users;
 import com.madirex.gameserver.dto.user.CreateUserDTO;
+import com.madirex.gameserver.dto.user.UserDTO;
+import com.madirex.gameserver.dto.user.UserModifyDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
+import com.madirex.gameserver.model.Item;
+import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.model.UserRole;
 import com.madirex.gameserver.repositories.UserRepository;
@@ -35,6 +39,11 @@ public class UserService {
         return userRepository.findById(id);
     }
 
+    public User deleteUser(User user) {
+        userRepository.delete(user);
+        return user;
+    }
+
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
@@ -53,6 +62,7 @@ public class UserService {
                     .password(passwordEncoder.encode(newUser.getPassword()))
                     .email(newUser.getEmail())
                     .roles(defaultRoles)
+                    .money(0)
                     .build();
             try {
                 return userRepository.save(user);
@@ -62,5 +72,29 @@ public class UserService {
         } else {
             throw new GeneralBadRequestException("Contraseñas","Las contraseñas no coinciden");
         }
+    }
+
+    public User updateUser(UserModifyDTO userModifyDTO, User user) {
+        String username = userModifyDTO.getUsername();
+        String password = userModifyDTO.getPassword();
+        String passwordConfirm = userModifyDTO.getPasswordConfirm();
+        String email = userModifyDTO.getEmail();
+        Integer money = userModifyDTO.getMoney();
+
+        if (username != null){
+            user.setUsername(username);
+        }
+        if (password != null && passwordConfirm != null) {
+            if (password.equals(passwordConfirm)){
+                user.setPassword(passwordEncoder.encode(password));
+            }
+        }
+        if (email != null) {
+            user.setEmail(email);
+        }
+        if (money != null) {
+            user.setMoney(money);
+        }
+        return userRepository.save(user);
     }
 }
