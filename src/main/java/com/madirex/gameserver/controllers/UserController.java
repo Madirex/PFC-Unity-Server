@@ -4,12 +4,15 @@ import com.madirex.gameserver.config.APIConfig;
 import com.madirex.gameserver.config.security.jwt.JwtTokenProvider;
 import com.madirex.gameserver.config.security.jwt.model.JwtUserResponse;
 import com.madirex.gameserver.config.security.jwt.model.LoginRequest;
+import com.madirex.gameserver.dto.shop.ShopDTO;
 import com.madirex.gameserver.dto.user.CreateUserDTO;
 import com.madirex.gameserver.dto.user.UserDTO;
+import com.madirex.gameserver.dto.user.UserModifyDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.UserMapper;
 import com.madirex.gameserver.model.Login;
+import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.model.UserRole;
 import com.madirex.gameserver.repositories.LoginRepository;
@@ -124,6 +127,22 @@ public class UserController {
     }
 
     @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
+    @ApiOperation(value = "Obtener un usuario", notes = "Obtiene un usuario que esta logueado")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UserModifyDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
+    })
+    @PutMapping("/me")
+    public ResponseEntity<?> mePut(@AuthenticationPrincipal User user, @RequestBody UserModifyDTO userModifyDTO) {
+        try {
+            User created = userService.updateUser(userModifyDTO, user);
+            return ResponseEntity.ok(userMapper.toDTO(created));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Actualizar", "Error al actualizar el usuario: " + e.getMessage());
+        }
+    }
+
+    @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
     @ApiOperation(value = "Loguear un usuario", notes = "Loguea un usuario")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Created", response = UserDTO.class),
@@ -154,6 +173,27 @@ public class UserController {
     @PostMapping("/")
     public UserDTO newUser(@RequestBody CreateUserDTO newUser) {
         return userMapper.toDTO(userService.save(newUser));
+    }
+
+    @ApiOperation(value = "Eliminar un usuario", notes = "Elimina un usuario en base a su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable String id) {
+        try {
+            User user = userService.findUserById(id).orElse(null);
+            if (user == null) {
+                throw new GeneralNotFoundException("id: " + id, "error al intentar borrar el usuario con el id " + id);
+            } else {
+                User userDone = userService.deleteUser(user);
+                return ResponseEntity.ok(userDone);
+            }
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar el usuario - " + e.getMessage());
+        }
     }
 
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(User user, String jwtToken) {

@@ -1,10 +1,12 @@
 package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
+import com.madirex.gameserver.dto.login.LoginDTO;
 import com.madirex.gameserver.dto.score.ScoreDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ScoreMapper;
+import com.madirex.gameserver.model.Login;
 import com.madirex.gameserver.model.Score;
 import com.madirex.gameserver.repositories.ScoreRepository;
 import com.madirex.gameserver.services.scores.ScoreService;
@@ -60,6 +62,26 @@ public class ScoreController {
             return ResponseEntity.ok(scoreMapper.toDTO(scores));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
+        }
+    }
+
+    @ApiOperation(value = "Eliminar un score", notes = "Elimina un score en base a su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ScoreDTO> delete(@PathVariable String id) {
+        Score score = scoreRepository.findById(id).orElse(null);
+        if (score == null) {
+            throw new GeneralNotFoundException(id,"No se ha encontrado el score con la id solicitada");
+        }
+        try {
+            scoreRepository.delete(score);
+            return ResponseEntity.ok(scoreMapper.toDTO(score));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar el score");
         }
     }
 

@@ -8,6 +8,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -25,10 +26,10 @@ public class Shop {
 
     private List<Item> items;
 
-    public Shop(String shopName, List<Item> items) {
+    public Shop(String shopName) {
         this.id = UUID.randomUUID().toString();
         this.shopName = shopName;
-        this.items = items;
+        this.items = new ArrayList<>();
     }
 
     @Id
@@ -52,7 +53,7 @@ public class Shop {
     }
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shop", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "shop", cascade = CascadeType.REFRESH)
     public List<Item> getItems() {
         return items;
     }

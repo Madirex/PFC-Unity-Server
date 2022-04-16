@@ -19,10 +19,8 @@ import java.util.UUID;
 public class Item {
     private String id;
 
-    @Column(nullable = true)
     private User user;
 
-    @Column(nullable = true)
     private Shop shop;
 
     private String name;
@@ -54,7 +52,7 @@ public class Item {
     }
 
     @ManyToOne
-    @JoinColumn(name = "user", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "user", referencedColumnName = "id", nullable = true)
     public User getUser() {
         return user;
     }
@@ -64,7 +62,7 @@ public class Item {
     }
 
     @ManyToOne
-    @JoinColumn(name = "shop", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "shop", referencedColumnName = "id", nullable = true)
     public Shop getShop() {
         return shop;
     }
