@@ -69,4 +69,22 @@ public class ItemService {
         }
         return itemRepository.save(item);
     }
+
+    public Item buyItem(String itemId, User userData) {
+        Optional<Item> itemOpt = itemRepository.findById(itemId);
+        Optional<User> userOpt = userRepository.findById(userData.getId());
+        Item item = null;
+        if (itemOpt.isPresent() && userOpt.isPresent()){
+            item = itemOpt.get();
+            if (userData.getMoney() >= item.getPrice()){
+                User user = userOpt.get();
+                item.setShop(null);
+                item.setUser(user);
+                user.setMoney(user.getMoney() - item.getPrice());
+                itemRepository.save(itemOpt.get());
+                userRepository.save(user);
+            }
+        }
+        return item;
+    }
 }
