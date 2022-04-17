@@ -1,5 +1,6 @@
 package com.madirex.gameserver.controllers.login;
 
+import com.madirex.gameserver.config.APIConfig;
 import com.madirex.gameserver.controllers.LoginController;
 import com.madirex.gameserver.dto.login.LoginDTO;
 import com.madirex.gameserver.dto.user.LoginUserDTO;
@@ -51,7 +52,7 @@ public class LoginControllerMockTest {
 
     private final Login login = Login.builder()
             .user(user)
-            .token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMTMzNGQ1Ny0xMjBiLTQzN2ItYmFlZi1jZjViNWY2OGNjM2UiLC")
+            .token(APIConfig.TEST_TOKEN)
             .instant(Date.from(Instant.now()))
             .build();
     @InjectMocks

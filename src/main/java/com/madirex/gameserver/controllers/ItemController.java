@@ -37,7 +37,7 @@ public class ItemController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll(
+    public ResponseEntity<List<ItemDTO>> findAll(
             @RequestParam("searchQuery") Optional<String> searchQuery
     ) {
         List<Item> items;
@@ -55,7 +55,7 @@ public class ItemController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<ItemDTO> findById(@PathVariable String id) {
         Item item = itemService.findById(id).orElse(null);
         if (item == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado el ítem con la id solicitada");
@@ -71,7 +71,7 @@ public class ItemController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody UpdateItemDTO updateItemDTO) {
+    public ResponseEntity<ItemDTO> update(@PathVariable String id, @RequestBody UpdateItemDTO updateItemDTO) {
         try {
             Item updated = itemService.findItemById(id).orElse(null);
             if (updated == null) {
@@ -91,7 +91,7 @@ public class ItemController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @PutMapping("/buy/{id}")
-    public ResponseEntity<?> buyItem(@AuthenticationPrincipal User user, @PathVariable String id) {
+    public ResponseEntity<ItemDTO> buyItem(@AuthenticationPrincipal User user, @PathVariable String id) {
         try {
             Item created = itemService.buyItem(id, user);
             return ResponseEntity.ok(itemMapper.toDTO(created));
@@ -106,7 +106,7 @@ public class ItemController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @PostMapping("/")
-    public ResponseEntity<?> save(@RequestBody CreateItemDTO createItemDTO) {
+    public ResponseEntity<ItemDTO> save(@RequestBody CreateItemDTO createItemDTO) {
         try {
             if (createItemDTO.getShop() == null || createItemDTO.getName() == null || createItemDTO.getItemType() == null) {
                 throw new GeneralBadRequestException("Insertar Item", "Error al insertar el ítem: La tienda, el nombre y el tipo del ítem deben complementarse.");
@@ -125,7 +125,7 @@ public class ItemController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<ItemDTO> delete(@PathVariable String id) {
         try {
             Item item = itemService.findItemById(id).orElse(null);
             if (item == null) {

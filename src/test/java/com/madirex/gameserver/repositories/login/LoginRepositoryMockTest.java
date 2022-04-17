@@ -1,5 +1,6 @@
 package com.madirex.gameserver.repositories.login;
 
+import com.madirex.gameserver.config.APIConfig;
 import com.madirex.gameserver.model.Login;
 import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.repositories.LoginRepository;
@@ -42,7 +43,7 @@ public class LoginRepositoryMockTest {
     private final Login login = Login.builder()
             .id("ec272c62-9d31-11ec-b909-0242ac120002")
             .user(user)
-            .token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMTMzNGQ1Ny0xMjBiLTQzN2ItYmFlZi1jZjViNWY2OGNjM2UiLC")
+            .token(APIConfig.TEST_TOKEN)
             .instant(Date.from(Instant.now()))
             .build();
 

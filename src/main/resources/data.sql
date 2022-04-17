@@ -15,7 +15,7 @@
 --     roles   varchar(255)
 -- ) engine=InnoDB;
 --
--- CREATE TABLE users
+-- CREATE TABLE user
 -- (
 --     id       varchar(255) not null,
 --     email    varchar(255),
@@ -57,14 +57,14 @@
 -- ) engine=InnoDB;
 --
 -- /* Crear el usuario admin */
--- INSERT INTO users
+-- INSERT INTO user
 -- VALUES ('261eafa9-4611-44e9-9cfe-6ede4b41324a',
 --         'contact@madirex.com',
 --         'Admin',
 --         '$2a$12$tkmFeFcSZ4CLCgjbNhgrO.1D3izDlrNjidrkOZZlOvPlJm2D/oBYq',
 --         0);
 --
--- INSERT INTO users
+-- INSERT INTO user
 -- VALUES ('1a998bc8-9db1-425c-be54-273fbf21aa15',
 --         'angel@madirex.com',
 --         'Admin2',
@@ -72,22 +72,22 @@
 --         0);
 --
 -- /* FOREIGN KEYS */
--- ALTER TABLE users
+-- ALTER TABLE user
 --     ADD CONSTRAINT UK_6dotkott2kjsp8vw4d0m25fb7 UNIQUE (email);
--- ALTER TABLE users
+-- ALTER TABLE user
 --     ADD CONSTRAINT UK_r43af9ap4edm43mmtq01oddj6 UNIQUE (username);
 -- ALTER TABLE user_roles
---     ADD CONSTRAINT FKhfh9dx7w3ubf1co1vdev94g3f FOREIGN KEY (user_id) REFERENCES users (id);
+--     ADD CONSTRAINT FKhfh9dx7w3ubf1co1vdev94g3f FOREIGN KEY (user_id) REFERENCES user (id);
 -- ALTER TABLE login
---     ADD CONSTRAINT FKddrmlhg56oaq3coq9xohjulr4 FOREIGN KEY (id_user) REFERENCES users (id);
+--     ADD CONSTRAINT FKddrmlhg56oaq3coq9xohjulr4 FOREIGN KEY (id_user) REFERENCES user (id);
 -- ALTER TABLE shop
 --     ADD CONSTRAINT UK_h4rqgjwnqidx6mvj4i22dxwxe UNIQUE (shop_name);
 -- ALTER TABLE item
 --     ADD CONSTRAINT FK5k0oem3ypbsnpc0kt1htx37w4 FOREIGN KEY (shop) REFERENCES shop (id);
 -- ALTER TABLE item
---     ADD CONSTRAINT FKmlrfgone1e43v2q6qrtjvb9jh FOREIGN KEY (user) REFERENCES users (id);
+--     ADD CONSTRAINT FKmlrfgone1e43v2q6qrtjvb9jh FOREIGN KEY (user) REFERENCES user (id);
 -- ALTER TABLE score
---     ADD CONSTRAINT FKmldusone9n43v3q6qrtjvb9jh FOREIGN KEY (user) REFERENCES users (id);
+--     ADD CONSTRAINT FKmldusone9n43v3q6qrtjvb9jh FOREIGN KEY (user) REFERENCES user (id);
 --
 -- /* INSERTAR */
 -- INSERT INTO user_roles (user_id, roles)
