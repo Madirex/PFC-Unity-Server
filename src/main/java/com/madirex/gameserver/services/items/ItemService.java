@@ -73,18 +73,21 @@ public class ItemService {
     public Item buyItem(String itemId, User userData) {
         Optional<Item> itemOpt = itemRepository.findById(itemId);
         Optional<User> userOpt = userRepository.findById(userData.getId());
-        Item item = null;
         if (itemOpt.isPresent() && userOpt.isPresent()){
-            item = itemOpt.get();
-            if (userData.getMoney() >= item.getPrice()){
+            Item item = itemOpt.get();
+            if (userData.getMoney() >= item.getPrice() && item.getShop() != null){
                 User user = userOpt.get();
                 item.setShop(null);
                 item.setUser(user);
                 user.setMoney(user.getMoney() - item.getPrice());
                 itemRepository.save(itemOpt.get());
                 userRepository.save(user);
+                return item;
+            }else{
+                return null;
             }
+        }else{
+            return null;
         }
-        return item;
     }
 }

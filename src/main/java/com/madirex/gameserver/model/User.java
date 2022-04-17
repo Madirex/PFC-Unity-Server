@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @ToString
 public class User implements UserDetails {
     private String id;
-
     @Column(unique = true)
     private String email;
 

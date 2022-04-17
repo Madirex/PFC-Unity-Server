@@ -91,7 +91,7 @@ public class ItemController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @PutMapping("/buy/{id}")
-    public ResponseEntity<?> mePut(@AuthenticationPrincipal User user, @PathVariable String id) {
+    public ResponseEntity<?> buyItem(@AuthenticationPrincipal User user, @PathVariable String id) {
         try {
             Item created = itemService.buyItem(id, user);
             return ResponseEntity.ok(itemMapper.toDTO(created));

@@ -79,7 +79,6 @@ public class UserService {
         String password = userModifyDTO.getPassword();
         String passwordConfirm = userModifyDTO.getPasswordConfirm();
         String email = userModifyDTO.getEmail();
-        Integer money = userModifyDTO.getMoney();
 
         if (username != null){
             user.setUsername(username);
@@ -92,9 +91,7 @@ public class UserService {
         if (email != null) {
             user.setEmail(email);
         }
-        if (money != null) {
-            user.setMoney(money);
-        }
+
         return userRepository.save(user);
     }
 }
