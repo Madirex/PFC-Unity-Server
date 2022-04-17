@@ -1,9 +1,8 @@
-package com.madirex.gameserver.repositories.login;
+package com.madirex.gameserver.repositories.shop;
 
-import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.model.Login;
+import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.model.User;
-import com.madirex.gameserver.repositories.LoginRepository;
+import com.madirex.gameserver.repositories.ShopRepository;
 import com.madirex.gameserver.repositories.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,12 +31,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestEntityManager
 @ImportAutoConfiguration
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class LoginRepositoryJPATest {
+public class ShopRepositoryJPATest {
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private LoginRepository loginRepository;
+    private ShopRepository shopRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -54,70 +52,63 @@ public class LoginRepositoryJPATest {
             .password("test")
             .build();
 
-    private final Login login = Login.builder()
+    private final Shop shop = Shop.builder()
             .id("ec272c62-9d31-11ec-b909-0242ac120002")
-            .user(user)
-            .token(APIConfig.TEST_TOKEN)
-            .instant(Date.from(Instant.now()))
+            .shopName("nombre tienda")
             .build();
 
 
     @Test
     @Order(1)
     void save() {
-        Login saved = loginRepository.save(login);
+        Shop saved = shopRepository.save(shop);
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), saved.getUser().getUsername()),
-                () -> assertEquals(login.getInstant(), saved.getInstant()),
-                () -> assertEquals(login.getToken(), saved.getToken())
+                () -> assertEquals(shop.getShopName(), saved.getShopName())
         );
     }
 
     @Test
     @Order(2)
     void getAllTest() {
-        entityManager.persist(login);
+        entityManager.persist(shop);
         entityManager.flush();
 
-        assertTrue(loginRepository.findAll().size() > 0);
+        assertTrue(shopRepository.findAll().size() > 0);
     }
 
     @Test
     @Order(3)
     void getByIdTest() {
-        entityManager.persist(login);
+        entityManager.persist(shop);
         entityManager.flush();
 
-        Login found = loginRepository.findById(login.getId()).get();
+        Shop found = shopRepository.findById(shop.getId()).get();
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), found.getUser().getUsername()),
-                () -> assertEquals(login.getInstant(), found.getInstant())
+                () -> assertEquals(shop.getShopName(), found.getShopName())
         );
     }
 
     @Test
     @Order(4)
     void update() {
-        entityManager.persist(login);
+        entityManager.persist(shop);
         entityManager.flush();
 
-        Login found = loginRepository.findById(login.getId()).get();
-        found.setToken(APIConfig.TEST_TOKEN);
-        Login updated = loginRepository.save(found);
+        Shop found = shopRepository.findById(shop.getId()).get();
+        Shop updated = shopRepository.save(found);
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), updated.getUser().getUsername()),
-                () -> assertEquals(login.getToken(), updated.getToken())
+                () -> assertEquals(shop.getShopName(), updated.getShopName())
         );
     }
 
     @Test
     @Order(5)
     void delete() {
-        entityManager.persist(login);
+        entityManager.persist(shop);
         entityManager.flush();
-        Login res = loginRepository.findById(login.getId()).get();
-        loginRepository.delete(login);
-        res = loginRepository.findById(login.getId()).orElse(null);
+        Shop res = shopRepository.findById(shop.getId()).get();
+        shopRepository.delete(shop);
+        res = shopRepository.findById(shop.getId()).orElse(null);
         assertNull(res);
     }
 }

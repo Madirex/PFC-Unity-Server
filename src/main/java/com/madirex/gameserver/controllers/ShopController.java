@@ -6,7 +6,6 @@ import com.madirex.gameserver.dto.shop.ShopDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ShopMapper;
-import com.madirex.gameserver.model.Item;
 import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.repositories.ShopRepository;
 import com.madirex.gameserver.services.shops.ShopService;
@@ -35,12 +34,12 @@ public class ShopController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll(
+    public ResponseEntity<List<ShopDTO>> findAll(
             @RequestParam("searchQuery") Optional<String> searchQuery
     ) {
         List<Shop> shops;
         try {
-                shops = shopService.findAll();
+            shops = shopService.findAll();
             return ResponseEntity.ok(shopMapper.toDTO(shops));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
@@ -53,7 +52,7 @@ public class ShopController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<ShopDTO> findById(@PathVariable String id) {
         Shop shop = shopService.findById(id).orElse(null);
         if (shop == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado la tienda con la id solicitada");
@@ -69,7 +68,7 @@ public class ShopController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable String id, @RequestBody CreateShopDTO createShopDTO) {
+    public ResponseEntity<ShopDTO> update(@PathVariable String id, @RequestBody CreateShopDTO createShopDTO) {
         try {
             Shop updated = shopService.findShopById(id).orElse(null);
             if (updated == null) {
@@ -89,9 +88,9 @@ public class ShopController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @PostMapping("/")
-    public ResponseEntity<?> save(@RequestBody CreateShopDTO createShopDTO) {
+    public ResponseEntity<ShopDTO> save(@RequestBody CreateShopDTO createShopDTO) {
         try {
-            if(createShopDTO.getShopName() == null){
+            if (createShopDTO.getShopName() == null) {
                 throw new GeneralBadRequestException("Insertar Tienda", "Error al insertar la tienda: Nombre no asignado.");
             }
             Shop inserted = shopService.createShop(createShopDTO);
@@ -109,7 +108,7 @@ public class ShopController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<Shop> delete(@PathVariable String id) {
         try {
             Shop shop = shopService.findShopById(id).orElse(null);
             if (shop == null) {

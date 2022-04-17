@@ -54,7 +54,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll(
+    public ResponseEntity<List<UserDTO>> findAll(
             @RequestParam("searchQuery") Optional<String> searchQuery
     ) {
         List<User> users;
@@ -75,7 +75,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<UserDTO> findById(@PathVariable String id) {
         User user = userService.findById(id).orElse(null);
         if (user == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado el usuario con la id solicitada");
@@ -90,7 +90,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/name/{username}")
-    public ResponseEntity<?> findByUsername(@PathVariable String username) {
+    public ResponseEntity<UserDTO> findByUsername(@PathVariable String username) {
         User user = userService.findByUsernameIgnoreCase(username).orElse(null);
         if (user == null) {
             throw new GeneralNotFoundException(username, "No se ha encontrado el usuario con el username solicitado");
@@ -105,7 +105,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/email/{email}")
-    public ResponseEntity<?> findByEmail(@PathVariable String email) {
+    public ResponseEntity<UserDTO> findByEmail(@PathVariable String email) {
         User user = userService.findByEmail(email);
         if (user == null) {
             throw new GeneralNotFoundException(email, "No se ha encontrado el usuario con el email solicitado");
@@ -131,7 +131,7 @@ public class UserController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @PutMapping("/me")
-    public ResponseEntity<?> mePut(@AuthenticationPrincipal User user, @RequestBody UserModifyDTO userModifyDTO) {
+    public ResponseEntity<UserDTO> mePut(@AuthenticationPrincipal User user, @RequestBody UserModifyDTO userModifyDTO) {
         try {
             User created = userService.updateUser(userModifyDTO, user);
             return ResponseEntity.ok(userMapper.toDTO(created));
@@ -179,7 +179,7 @@ public class UserController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable String id) {
+    public ResponseEntity<User> delete(@PathVariable String id) {
         try {
             User user = userService.findUserById(id).orElse(null);
             if (user == null) {

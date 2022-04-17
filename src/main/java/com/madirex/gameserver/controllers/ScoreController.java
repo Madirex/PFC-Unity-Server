@@ -36,7 +36,7 @@ public class ScoreController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll(
+    public ResponseEntity<List<ScoreDTO>> findAll(
             @RequestParam("level") Optional<String> level,
             @RequestParam("user") Optional<String> user
     ) {
@@ -92,7 +92,7 @@ public class ScoreController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<ScoreDTO> findById(@PathVariable String id) {
         Score score = scoreService.findById(id).orElse(null);
         if (score == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado la puntuación con la id solicitada");
@@ -107,7 +107,7 @@ public class ScoreController {
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @PostMapping("/")
-    public ResponseEntity<?> buyItem(@AuthenticationPrincipal User user, @RequestBody CreateScoreDTO createScoreDTO) {
+    public ResponseEntity<ScoreDTO> buyItem(@AuthenticationPrincipal User user, @RequestBody CreateScoreDTO createScoreDTO) {
         try {
             Score created = scoreService.createScore(createScoreDTO, user);
             return ResponseEntity.ok(scoreMapper.toDTO(created));

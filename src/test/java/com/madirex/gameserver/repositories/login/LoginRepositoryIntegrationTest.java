@@ -1,5 +1,6 @@
 package com.madirex.gameserver.repositories.login;
 
+import com.madirex.gameserver.config.APIConfig;
 import com.madirex.gameserver.model.Login;
 import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.repositories.LoginRepository;
@@ -32,7 +33,7 @@ public class LoginRepositoryIntegrationTest {
     private final Login login = Login.builder()
             .id("ec272c62-9d31-11ec-b909-0242ac120002")
             .user(user)
-            .token("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMTMzNGQ1Ny0xMjBiLTQzN2ItYmFlZi1jZjViNWY2OGNjM2UiLC")
+            .token(APIConfig.TEST_TOKEN)
             .instant(Date.from(Instant.now()))
             .build();
     @Autowired
@@ -89,11 +90,11 @@ public class LoginRepositoryIntegrationTest {
         Optional<Login> loginOpt = loginRepository.findById(logi.getId());
         assumeTrue(loginOpt.isPresent());
         logi = loginOpt.get();
-        logi.setToken("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMTMzNGQ1Ny0xMjBiLTQzN2ItYmFlZi1jZjViNWY2OGNjM2UiLC");
+        logi.setToken(APIConfig.TEST_TOKEN);
         Login res = loginRepository.save(logi);
         assertAll(
                 () -> assertNotNull(res),
-                () -> assertEquals("eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJjMTMzNGQ1Ny0xMjBiLTQzN2ItYmFlZi1jZjViNWY2OGNjM2UiLC", res.getToken()),
+                () -> assertEquals(APIConfig.TEST_TOKEN, res.getToken()),
                 () -> assertEquals(login.getUser().getUsername(), res.getUser().getUsername()),
                 () -> assertEquals(login.getInstant(), res.getInstant())
         );

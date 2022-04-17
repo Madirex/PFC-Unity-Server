@@ -1,9 +1,8 @@
-package com.madirex.gameserver.repositories.login;
+package com.madirex.gameserver.repositories.item;
 
-import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.model.Login;
+import com.madirex.gameserver.model.Item;
 import com.madirex.gameserver.model.User;
-import com.madirex.gameserver.repositories.LoginRepository;
+import com.madirex.gameserver.repositories.ItemRepository;
 import com.madirex.gameserver.repositories.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,12 +32,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestEntityManager
 @ImportAutoConfiguration
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class LoginRepositoryJPATest {
+public class ItemRepositoryJPATest {
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private LoginRepository loginRepository;
+    private ItemRepository itemRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -54,70 +53,71 @@ public class LoginRepositoryJPATest {
             .password("test")
             .build();
 
-    private final Login login = Login.builder()
+    private final Item item = Item.builder()
             .id("ec272c62-9d31-11ec-b909-0242ac120002")
             .user(user)
-            .token(APIConfig.TEST_TOKEN)
-            .instant(Date.from(Instant.now()))
+            .amountPower(20.0)
+            .price(23)
             .build();
 
 
     @Test
     @Order(1)
     void save() {
-        Login saved = loginRepository.save(login);
+        Item saved = itemRepository.save(item);
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), saved.getUser().getUsername()),
-                () -> assertEquals(login.getInstant(), saved.getInstant()),
-                () -> assertEquals(login.getToken(), saved.getToken())
+                () -> assertEquals(item.getUser().getUsername(), saved.getUser().getUsername()),
+                () -> assertEquals(item.getAmountPower(), saved.getAmountPower()),
+                () -> assertEquals(item.getPrice(), saved.getPrice())
         );
     }
 
     @Test
     @Order(2)
     void getAllTest() {
-        entityManager.persist(login);
+        entityManager.persist(item);
         entityManager.flush();
 
-        assertTrue(loginRepository.findAll().size() > 0);
+        assertTrue(itemRepository.findAll().size() > 0);
     }
 
     @Test
     @Order(3)
     void getByIdTest() {
-        entityManager.persist(login);
+        entityManager.persist(item);
         entityManager.flush();
 
-        Login found = loginRepository.findById(login.getId()).get();
+        Item found = itemRepository.findById(item.getId()).get();
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), found.getUser().getUsername()),
-                () -> assertEquals(login.getInstant(), found.getInstant())
+                () -> assertEquals(item.getUser().getUsername(), found.getUser().getUsername()),
+                () -> assertEquals(item.getAmountPower(), found.getAmountPower()),
+                () -> assertEquals(item.getPrice(), found.getPrice())
         );
     }
 
     @Test
     @Order(4)
     void update() {
-        entityManager.persist(login);
+        entityManager.persist(item);
         entityManager.flush();
 
-        Login found = loginRepository.findById(login.getId()).get();
-        found.setToken(APIConfig.TEST_TOKEN);
-        Login updated = loginRepository.save(found);
+        Item found = itemRepository.findById(item.getId()).get();
+        Item updated = itemRepository.save(found);
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), updated.getUser().getUsername()),
-                () -> assertEquals(login.getToken(), updated.getToken())
+                () -> assertEquals(item.getUser().getUsername(), updated.getUser().getUsername()),
+                () -> assertEquals(item.getAmountPower(), updated.getAmountPower()),
+                () -> assertEquals(item.getPrice(), updated.getPrice())
         );
     }
 
     @Test
     @Order(5)
     void delete() {
-        entityManager.persist(login);
+        entityManager.persist(item);
         entityManager.flush();
-        Login res = loginRepository.findById(login.getId()).get();
-        loginRepository.delete(login);
-        res = loginRepository.findById(login.getId()).orElse(null);
+        Item res = itemRepository.findById(item.getId()).get();
+        itemRepository.delete(item);
+        res = itemRepository.findById(item.getId()).orElse(null);
         assertNull(res);
     }
 }

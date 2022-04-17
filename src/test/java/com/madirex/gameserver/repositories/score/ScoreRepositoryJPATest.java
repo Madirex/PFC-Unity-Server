@@ -1,9 +1,8 @@
-package com.madirex.gameserver.repositories.login;
+package com.madirex.gameserver.repositories.score;
 
-import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.model.Login;
+import com.madirex.gameserver.model.Score;
 import com.madirex.gameserver.model.User;
-import com.madirex.gameserver.repositories.LoginRepository;
+import com.madirex.gameserver.repositories.ScoreRepository;
 import com.madirex.gameserver.repositories.UserRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +17,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
-import java.time.Instant;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,12 +32,12 @@ import static org.junit.jupiter.api.Assertions.*;
 @AutoConfigureTestEntityManager
 @ImportAutoConfiguration
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class LoginRepositoryJPATest {
+public class ScoreRepositoryJPATest {
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private LoginRepository loginRepository;
+    private ScoreRepository scoreRepository;
     @Autowired
     private UserRepository userRepository;
 
@@ -54,70 +53,71 @@ public class LoginRepositoryJPATest {
             .password("test")
             .build();
 
-    private final Login login = Login.builder()
+    private final Score score = Score.builder()
             .id("ec272c62-9d31-11ec-b909-0242ac120002")
             .user(user)
-            .token(APIConfig.TEST_TOKEN)
-            .instant(Date.from(Instant.now()))
+            .date(LocalDateTime.now())
+            .amount(200)
             .build();
 
 
     @Test
     @Order(1)
     void save() {
-        Login saved = loginRepository.save(login);
+        Score saved = scoreRepository.save(score);
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), saved.getUser().getUsername()),
-                () -> assertEquals(login.getInstant(), saved.getInstant()),
-                () -> assertEquals(login.getToken(), saved.getToken())
+                () -> assertEquals(score.getUser().getUsername(), saved.getUser().getUsername()),
+                () -> assertEquals(score.getDate(), saved.getDate()),
+                () -> assertEquals(score.getAmount(), saved.getAmount())
         );
     }
 
     @Test
     @Order(2)
     void getAllTest() {
-        entityManager.persist(login);
+        entityManager.persist(score);
         entityManager.flush();
 
-        assertTrue(loginRepository.findAll().size() > 0);
+        assertTrue(scoreRepository.findAll().size() > 0);
     }
 
     @Test
     @Order(3)
     void getByIdTest() {
-        entityManager.persist(login);
+        entityManager.persist(score);
         entityManager.flush();
 
-        Login found = loginRepository.findById(login.getId()).get();
+        Score found = scoreRepository.findById(score.getId()).get();
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), found.getUser().getUsername()),
-                () -> assertEquals(login.getInstant(), found.getInstant())
+                () -> assertEquals(score.getUser().getUsername(), found.getUser().getUsername()),
+                () -> assertEquals(score.getDate(), found.getDate()),
+                () -> assertEquals(score.getAmount(), found.getAmount())
         );
     }
 
     @Test
     @Order(4)
     void update() {
-        entityManager.persist(login);
+        entityManager.persist(score);
         entityManager.flush();
 
-        Login found = loginRepository.findById(login.getId()).get();
-        found.setToken(APIConfig.TEST_TOKEN);
-        Login updated = loginRepository.save(found);
+        Score found = scoreRepository.findById(score.getId()).get();
+        Score updated = scoreRepository.save(found);
         assertAll(
-                () -> assertEquals(login.getUser().getUsername(), updated.getUser().getUsername()),
-                () -> assertEquals(login.getToken(), updated.getToken())
+                () -> assertEquals(score.getUser().getUsername(), updated.getUser().getUsername()),
+                () -> assertEquals(score.getDate(), updated.getDate()),
+                () -> assertEquals(score.getAmount(), updated.getAmount())
         );
     }
 
     @Test
     @Order(5)
     void delete() {
-        entityManager.persist(login);
+        entityManager.persist(score);
         entityManager.flush();
-        Login res = loginRepository.findById(login.getId()).get();
-        loginRepository.delete(login);
-        res = loginRepository.findById(login.getId()).orElse(null);
+        Score res = scoreRepository.findById(score.getId()).get();
+        scoreRepository.delete(score);
+        res = scoreRepository.findById(score.getId()).orElse(null);
         assertNull(res);
     }
 }
