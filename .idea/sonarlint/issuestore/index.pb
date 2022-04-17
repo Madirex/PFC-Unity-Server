@@ -5,8 +5,6 @@ I
 docker/mariadb/Dockerfile,7/a/7acadf7fa2ec72cdd93d8d45aca5326315f863af
 I
 docker/docker-compose.yml,3/f/3fe733692645251b38d6ef0a55b2d48c3a1cf387
-7
-pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 h
 8src/main/java/com/madirex/gameserver/model/UserRole.java,7/3/731733f4bb7d6413710adf1ed9a8b6d7c5122d4a
 h
@@ -27,8 +25,6 @@ k
 ;src/main/java/com/madirex/gameserver/mapper/ShopMapper.java,c/6/c6a6cbde8babd40c1679450e7e248a9723664519
 l
 <src/main/java/com/madirex/gameserver/mapper/ScoreMapper.java,5/e/5e871cd5efbd1077d9af66bc27104b663021f602
-k
-;src/main/java/com/madirex/gameserver/config/CorsConfig.java,b/d/bd2b1b34861e3e4d3bf8ccf11ae319555d62e170
 m
 =src/main/java/com/madirex/gameserver/config/MapperConfig.java,e/7/e73fc8040c3db0b7e7018e88b6cee7172aa901ca
 u
@@ -37,7 +33,5 @@ v
 Fsrc/main/java/com/madirex/gameserver/repositories/LoginRepository.java,6/e/6e586da2a2c8160b230976fba6837cb14006ce87
 o
 ?src/main/java/com/madirex/gameserver/GameServerApplication.java,1/c/1c6597861dd0d55306a913494675092c64efa6ab
-v
-Fsrc/main/java/com/madirex/gameserver/repositories/ScoreRepository.java,0/4/04aef7a7c02f71bcc7b821e33d22455a807eaa8f
 u
 Esrc/main/java/com/madirex/gameserver/repositories/UserRepository.java,3/1/31529a8067fc04a0ead4a91518590cadf1874697

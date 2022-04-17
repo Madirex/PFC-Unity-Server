@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ScoreRepository extends JpaRepository<Score, String> {
-    //@Query( value = "SELECT * FROM score WHERE level = ?1 ORDER BY amount DESC", nativeQuery = true) //TODO: DEL
     List<Score> findAllByLevelOrderByAmountDesc(Integer level);
 
 

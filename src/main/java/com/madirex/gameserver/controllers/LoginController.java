@@ -59,7 +59,6 @@ public class LoginController {
             @ApiResponse(code = 401, message = "No autenticado"),
             @ApiResponse(code = 403, message = "No autorizado")
     })
-    @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
     @GetMapping("/page")
     public ResponseEntity<ListLoginPageDTO> findAllLogins(
             @RequestParam(name = "page", defaultValue = "0") int page,

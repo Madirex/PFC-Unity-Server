@@ -115,7 +115,6 @@ public class UserController {
     }
 
 
-    @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
     @ApiOperation(value = "Obtener un usuario", notes = "Obtiene un usuario que esta logueado")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -126,7 +125,6 @@ public class UserController {
         return userMapper.toDTO(user);
     }
 
-    @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
     @ApiOperation(value = "Actualizar usuario", notes = "Actualiza el usuario logueado")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserModifyDTO.class),
@@ -142,7 +140,6 @@ public class UserController {
         }
     }
 
-    @CrossOrigin(origins = "http://localhost:3306") //TODO: host y port sacar de properties
     @ApiOperation(value = "Loguear un usuario", notes = "Loguea un usuario")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Created", response = UserDTO.class),
