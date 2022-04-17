@@ -137,7 +137,7 @@
 -- /* Crear ítems de prueba */
 -- INSERT INTO item (id, user, shop, name, price, item_type, amount_power)
 -- VALUES ('d6eef0f1-8ce4-4d7d-8c4d-250917def843', /*id*/
---         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
+--         null, /*user*/
 --         'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop*/
 --         'Pistola', /*name*/
 --         100, /*price*/
@@ -147,7 +147,7 @@
 -- INSERT INTO item (id, user, shop, name, price, item_type, amount_power)
 -- VALUES ('e9cb4fa0-0b77-4665-957b-d52d33123fda', /*id*/
 --         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
---         'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop*/
+--         null, /*shop*/
 --         'Armadura cabeza', /*name*/
 --         200, /*price*/
 --         'ARMOR', /*item_type*/

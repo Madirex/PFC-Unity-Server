@@ -1,13 +1,13 @@
 package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
-import com.madirex.gameserver.dto.login.LoginDTO;
+import com.madirex.gameserver.dto.score.CreateScoreDTO;
 import com.madirex.gameserver.dto.score.ScoreDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ScoreMapper;
-import com.madirex.gameserver.model.Login;
 import com.madirex.gameserver.model.Score;
+import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.repositories.ScoreRepository;
 import com.madirex.gameserver.services.scores.ScoreService;
 import io.swagger.annotations.ApiOperation;
@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -97,6 +98,21 @@ public class ScoreController {
             throw new GeneralNotFoundException(id, "No se ha encontrado la puntuación con la id solicitada");
         } else {
             return ResponseEntity.ok(scoreMapper.toDTO(score));
+        }
+    }
+
+    @ApiOperation(value = "Crear score", notes = "Opción de crear score")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
+    })
+    @PostMapping("/")
+    public ResponseEntity<?> buyItem(@AuthenticationPrincipal User user, @RequestBody CreateScoreDTO createScoreDTO) {
+        try {
+            Score created = scoreService.createScore(createScoreDTO, user);
+            return ResponseEntity.ok(scoreMapper.toDTO(created));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Crear score", "Error al crear Score: " + e.getMessage());
         }
     }
 

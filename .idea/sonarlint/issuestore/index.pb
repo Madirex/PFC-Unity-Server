@@ -23,8 +23,6 @@ t
 Dsrc/main/java/com/madirex/gameserver/dto/login/ListLoginPageDTO.java,7/3/738cb7a96f3344460c42d9b961eefe327e4642c5
 
 Osrc/main/java/com/madirex/gameserver/services/users/InfoUserDetailsService.java,2/d/2d46327989c81a6b4548d3006c120fdfed7c82d1
-l
-<src/main/java/com/madirex/gameserver/dto/score/ScoreDTO.java,c/7/c76fae1e6046145754548095f8748ed72081969e
 k
 ;src/main/java/com/madirex/gameserver/mapper/ShopMapper.java,c/6/c6a6cbde8babd40c1679450e7e248a9723664519
 l
@@ -39,8 +37,6 @@ v
 Fsrc/main/java/com/madirex/gameserver/repositories/LoginRepository.java,6/e/6e586da2a2c8160b230976fba6837cb14006ce87
 o
 ?src/main/java/com/madirex/gameserver/GameServerApplication.java,1/c/1c6597861dd0d55306a913494675092c64efa6ab
-v
-Fsrc/main/java/com/madirex/gameserver/services/scores/ScoreService.java,3/9/39e980e4b2bcedf2023c1f3c0c15b76049141fe5
 v
 Fsrc/main/java/com/madirex/gameserver/repositories/ScoreRepository.java,0/4/04aef7a7c02f71bcc7b821e33d22455a807eaa8f
 u
