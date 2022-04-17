@@ -28,4 +28,10 @@ public class APIConfig {
     public static final String AUTHOR_URL = "https://www.madirex.com/";
     @Value("${api.author}.email")
     public static final String AUTHOR_EMAIL = "contact@madirex.com";
+
+    //TODO: hacer algo con el TEST TOKEN para no tener que editarlo cada vez que se quiera testear
+    public static final String TEST_TOKEN = "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOi" +
+            "JjMTMzNGQ1Ny0xMjBiLTQzN2ItYmFlZi1jZjViNWY2OGNjM2UiLCJpYXQiOjE2NDY1NzY2MzgsImV4cCI6MT" +
+            "Y0NjY2MzAzOCwibmFtZSI6IkFkbWluIiwicm9sZXMiOiJVU0VSLCBBRE1JTiJ9.HIY1f7O_OWY9SDfnJHkgN" +
+            "GvqxqbWuJutdF_cnA7ulkwYz-LrDpAFrsFd9MFSQCL7Ms87cqALVqXsV4z0cphRYg";
 }
