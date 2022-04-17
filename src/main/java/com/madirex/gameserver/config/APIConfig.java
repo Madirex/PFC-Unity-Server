@@ -8,24 +8,24 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @EnableJpaAuditing
 public class APIConfig {
     //TODO: cogerlo todo mejor del application properties
-    @Value("${api.name}") //TODO: esto está bien?
+    @Value("${api.name}")
     public static final String API_NAME = "GameServer API";
-    @Value("${api.description}") //TODO: esto está bien?
+    @Value("${api.description}")
     public static final String API_DESCRIPTION = "API REST para un videojuego en Unity";
     @Value("${api.path}.path")
     public static final String API_PATH = "/rest";
     @Value("${api.version}")
     public static final String API_VERSION = "1.0";
-    @Value("${api.port}") //TODO: esto está bien?
-    public static final String API_PORT = "6668"; //TODO: esto cogerlo del application properties mejor
-    @Value("${api.license}") //TODO: esto está bien?
+    @Value("${api.port}")
+    public static final String API_PORT = "6668";
+    @Value("${api.license}")
     public static final String API_LICENSE = "MIT";
-    @Value("${api.license}.url") //TODO: esto está bien?
+    @Value("${api.license}.url")
     public static final String API_LICENSE_URL = null;
-    @Value("${api.author}") //TODO: esto está bien?
+    @Value("${api.author}")
     public static final String AUTHOR_NAME = "Madirex";
-    @Value("${api.author}.url") //TODO: esto está bien?
+    @Value("${api.author}.url")
     public static final String AUTHOR_URL = "https://www.madirex.com/";
-    @Value("${api.author}.email") //TODO: esto está bien?
+    @Value("${api.author}.email")
     public static final String AUTHOR_EMAIL = "contact@madirex.com";
 }
