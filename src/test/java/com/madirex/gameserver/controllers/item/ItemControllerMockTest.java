@@ -5,15 +5,15 @@ import com.madirex.gameserver.dto.items.CreateItemDTO;
 import com.madirex.gameserver.dto.items.ItemDTO;
 import com.madirex.gameserver.dto.items.UpdateItemDTO;
 import com.madirex.gameserver.dto.shop.ShopDTO;
-import com.madirex.gameserver.dto.user.UserDTO;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ItemMapper;
 import com.madirex.gameserver.model.Item;
+import com.madirex.gameserver.model.ItemType;
 import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.model.User;
-import com.madirex.gameserver.repositories.ShopRepository;
-import com.madirex.gameserver.repositories.UserRepository;
+import com.madirex.gameserver.repositories.ItemRepository;
 import com.madirex.gameserver.services.items.ItemService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
@@ -28,7 +28,12 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
+//TODO: Agregar el resto de tests en los controladores y que tengan 100% cobertura de código
+//TODO: Pasar a Kotlin
+//TODO: ✏️ Documentación: documentar todo lo que he usado: Git (sistema control versiones), GitHub, Gitkraken, GitFlow, Spring Boot, Spring Security, Hibernate, JUnit, mockito, etc...
+
 @SpringBootTest
+//TODO: TEST NO FUNCIONA: Update, findById, save
 public class ItemControllerMockTest {
 
     @MockBean
@@ -38,20 +43,16 @@ public class ItemControllerMockTest {
     private ItemMapper itemMapper;
 
     @MockBean
-    private UserRepository userRepository;
-
-    @MockBean
-    private ShopRepository shopRepository;
+    private ItemRepository itemRepository;
 
     @InjectMocks
     private ItemController itemController;
 
     @Autowired
-    public ItemControllerMockTest(ItemService itemService, ItemMapper itemMapper, UserRepository userRepository, ShopRepository shopRepository) {
+    public ItemControllerMockTest(ItemService itemService, ItemMapper itemMapper, ItemRepository itemRepository) {
         this.itemService = itemService;
         this.itemMapper = itemMapper;
-        this.userRepository = userRepository;
-        this.shopRepository = shopRepository;
+        this.itemRepository = itemRepository;
     }
 
     User user = User.builder()
@@ -85,7 +86,13 @@ public class ItemControllerMockTest {
             .name("item1")
             .price(100)
             .amountPower(10.0)
+            .itemType(ItemType.WEAPON)
             .build();
+
+    @BeforeEach
+    void setUp() {
+        itemRepository.save(item1);
+    }
 
     @Test
     void findAll() {
@@ -144,16 +151,23 @@ public class ItemControllerMockTest {
         createItemDTO.setPrice(itemDTO1.getPrice());
 
         Mockito.when(itemMapper.toDTO(item1)).thenReturn(itemDTO1);
-
-        assertEquals(ResponseEntity.ok(itemDTO1), itemController.save(createItemDTO));
-
-
+        assertEquals(ResponseEntity.ok(createItemDTO), itemController.save(createItemDTO));
         Mockito.verify(itemMapper, Mockito.times(1)).toDTO(any(Item.class));
-        Mockito.verify(userRepository, Mockito.times(1)).findById(item1.getUser().getId());
+        Mockito.verify(itemRepository, Mockito.times(1)).findById(item1.getUser().getId());
     }
 
     @Test
     void update() {
+        CreateItemDTO createItemDTO = new CreateItemDTO();
+        createItemDTO.setItemType(itemDTO1.getItemType());
+        createItemDTO.setShop(shopDTO.getId());
+        createItemDTO.setAmountPower(itemDTO1.getAmountPower());
+        createItemDTO.setName(itemDTO1.getName());
+        createItemDTO.setPrice(itemDTO1.getPrice());
+
+        Mockito.when(itemMapper.toDTO(item1)).thenReturn(itemDTO1);
+        assertEquals(ResponseEntity.ok(createItemDTO), itemController.save(createItemDTO));
+
         UpdateItemDTO updateItemDTO = new UpdateItemDTO();
         updateItemDTO.setShop(itemDTO1.getName());
         updateItemDTO.setItemType(itemDTO1.getItemType());
@@ -161,10 +175,10 @@ public class ItemControllerMockTest {
         updateItemDTO.setAmountPower(itemDTO1.getAmountPower());
 
         Mockito.when(itemMapper.toDTO(item1)).thenReturn(itemDTO1);
-        assertEquals(ResponseEntity.ok(itemDTO1), itemController.update("d6eef0f1-8ce4-4d7d-8c4d-250917def843", updateItemDTO));
+        assertEquals(ResponseEntity.ok(itemDTO1), itemController.update(itemDTO1.getId(), updateItemDTO));
 
         Mockito.verify(itemMapper, Mockito.times(1)).toDTO(any(Item.class));
-        Mockito.verify(userRepository, Mockito.times(1)).findById(item1.getUser().getId());
+        Mockito.verify(itemRepository, Mockito.times(1)).findById(item1.getUser().getId());
     }
 
     @Test

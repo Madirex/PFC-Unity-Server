@@ -16,18 +16,14 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -43,6 +39,7 @@ public class LoginControllerMockTest {
     void setUp() {
         userRepository.save(user);
     }
+
     private final User user = User.builder()
             .id("ec272c62-9d31-11ec-b909-0242ac120002")
             .username("nombre usuario")
@@ -57,6 +54,7 @@ public class LoginControllerMockTest {
             .build();
     @InjectMocks
     private LoginController loginController;
+
     @Autowired
     public LoginControllerMockTest(LoginRepository loginRepository, LoginMapper loginMapper) {
         this.loginRepository = loginRepository;
