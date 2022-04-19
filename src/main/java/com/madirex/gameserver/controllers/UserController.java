@@ -145,7 +145,7 @@ public class UserController {
             @ApiResponse(code = 200, message = "Created", response = UserDTO.class),
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
-    @PostMapping("/login")
+    @PostMapping( "/login")
     public JwtUserResponse login(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication =
                 authenticationManager.authenticate(

@@ -53,15 +53,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 //Users
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/user/").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/user/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/user/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/user/name/{username}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/user/email/{email}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/user/me").hasAnyRole("PLAYER", "ADMIN")
-                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/user/me").hasAnyRole("PLAYER", "ADMIN")
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/user/login").permitAll()
-                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/user/").permitAll()
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/users/{id}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/name/{username}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/email/{email}").hasRole("ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/users/me").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.PUT, APIConfig.API_PATH + "/users/me").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/login").permitAll()
+                .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/users/").permitAll()
 
                 //Login
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/logins/").hasRole("ADMIN")
