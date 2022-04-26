@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -150,10 +151,48 @@ public class ItemControllerMockTest {
         createItemDTO.setName(itemDTO1.getName());
         createItemDTO.setPrice(itemDTO1.getPrice());
 
-        Mockito.when(itemMapper.toDTO(item1)).thenReturn(itemDTO1);
-        assertEquals(ResponseEntity.ok(createItemDTO), itemController.save(createItemDTO));
-        Mockito.verify(itemMapper, Mockito.times(1)).toDTO(any(Item.class));
-        Mockito.verify(itemRepository, Mockito.times(1)).findById(item1.getUser().getId());
+        Item item1 = Item.builder()
+                .id("0fc7d018-9d32-11ec-b909-0242ac120002")
+                .shop(shop)
+                .user(user)
+                .name("item1")
+                .price(100)
+                .amountPower(10.0)
+                .build();
+
+        ItemDTO itemDTO1 = ItemDTO.builder()
+                .id("0fc7d018-9d32-11ec-b909-0242ac120002")
+                .name("item1")
+                .price(100)
+                .amountPower(10.0)
+                .itemType(ItemType.WEAPON)
+                .build();
+
+        Mockito.when(itemRepository.save(item1))
+                .thenReturn(item1);
+
+//        Mockito.when(itemMapper.fromDTO(itemDTO1))
+//                .thenReturn(item1);
+
+//        Mockito.when(itemMapper.toDTO(item))
+//                .thenReturn(itemDTO1);
+
+        var response = itemController.save(createItemDTO);
+        var res = response.getBody();
+        assert res != null;
+        assertAll(
+                () -> assertEquals(HttpStatus.OK.value(), response.getStatusCode().value()),
+                () -> assertEquals(res.getItemType(), itemDTO1.getItemType()),
+                () -> assertEquals(res.getPrice(), itemDTO1.getPrice()),
+                () -> assertEquals(res.getAmountPower(), itemDTO1.getAmountPower())
+        );
+
+        Mockito.verify(itemRepository, Mockito.times(1))
+                .save(item1);
+//        Mockito.verify(itemMapper, Mockito.times(1))
+//                .fromDTO(createItemDTO);
+//        Mockito.verify(itemMapper, Mockito.times(1))
+//                .toDTO(item);
     }
 
     @Test
