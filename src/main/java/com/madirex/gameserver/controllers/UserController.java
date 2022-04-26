@@ -34,6 +34,8 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @RestController
@@ -169,6 +171,22 @@ public class UserController {
     })
     @PostMapping("/")
     public UserDTO newUser(@RequestBody CreateUserDTO newUser) {
+        if (newUser.getPassword().length() < 5){
+            throw new GeneralBadRequestException("Insertar", "Error al insertar registro - Las contraseña no puede tener menos de 5 caracteres");
+        }
+
+        if (newUser.getPassword() != newUser.getPasswordConfirm()){
+            throw new GeneralBadRequestException("Insertar", "Error al insertar registro - Las contraseñas no coinciden");
+        }
+
+        String regex = "^(.+)@(.+)$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(newUser.getEmail());
+        System.out.println(newUser.getEmail());
+        if (!matcher.matches()){
+            throw new GeneralBadRequestException("Insertar", "Error al insertar registro - El email introducido no tiene formato válido");
+        }
+
         return userMapper.toDTO(userService.save(newUser));
     }
 
