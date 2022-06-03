@@ -21,6 +21,7 @@ import java.util.UUID;
 @Table(name = "login")
 @ToString
 public class Login {
+    @Column(unique = true)
     private String id;
     private String token;
     private Date instant;

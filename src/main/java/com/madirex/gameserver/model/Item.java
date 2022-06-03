@@ -17,6 +17,7 @@ import java.util.UUID;
 @Table(name = "item")
 @ToString
 public class Item {
+    @Column(unique = true)
     private String id;
 
     private User user;

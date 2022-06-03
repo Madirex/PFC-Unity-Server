@@ -67,7 +67,7 @@ public class UserService {
             try {
                 return userRepository.save(user);
             } catch (DataIntegrityViolationException ex) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre del usuario ya existe");
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El nombre del usuario o correo electrónico ya existe.");
             }
         } else {
             throw new GeneralBadRequestException("Contraseñas","Las contraseñas no coinciden");
