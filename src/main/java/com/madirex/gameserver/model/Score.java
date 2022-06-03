@@ -18,6 +18,7 @@ import java.util.UUID;
 @Table(name = "score")
 @ToString
 public class Score {
+    @Column(unique = true)
     private String id;
 
     @Column(nullable = false)

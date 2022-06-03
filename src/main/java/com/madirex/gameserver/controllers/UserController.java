@@ -159,6 +159,7 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         User user = (User) authentication.getPrincipal();
         String jwtToken = tokenProvider.generateToken(authentication);
+
         Login login = new Login(jwtToken, Date.from(Instant.now()), user);
         loginRepository.save(login);
         return convertUserEntityAndTokenToJwtUserResponse(user, jwtToken);
@@ -175,14 +176,13 @@ public class UserController {
             throw new GeneralBadRequestException("Insertar", "Error al insertar registro - Las contraseña no puede tener menos de 5 caracteres");
         }
 
-        if (newUser.getPassword() != newUser.getPasswordConfirm()){
+        if (!newUser.getPassword().equals(newUser.getPasswordConfirm())){
             throw new GeneralBadRequestException("Insertar", "Error al insertar registro - Las contraseñas no coinciden");
         }
 
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(newUser.getEmail());
-        System.out.println(newUser.getEmail());
         if (!matcher.matches()){
             throw new GeneralBadRequestException("Insertar", "Error al insertar registro - El email introducido no tiene formato válido");
         }

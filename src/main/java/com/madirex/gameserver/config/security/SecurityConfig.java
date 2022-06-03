@@ -76,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/item/{id}").hasRole("ADMIN")
 
                 //Score
-                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
+                .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/").permitAll()
                 .antMatchers(HttpMethod.POST, APIConfig.API_PATH + "/score/").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.GET, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER", "ADMIN")
                 .antMatchers(HttpMethod.DELETE, APIConfig.API_PATH + "/score/{id}").hasAnyRole("PLAYER")

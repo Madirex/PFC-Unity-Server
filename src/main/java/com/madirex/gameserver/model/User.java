@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 @Table(name = "user")
 @ToString
 public class User implements UserDetails {
+    @Column(unique = true)
     private String id;
     @Column(unique = true)
     private String email;
@@ -38,12 +39,12 @@ public class User implements UserDetails {
 
     private Set<UserRole> roles;
 
-    private List<Item> inventory;
+    private Set<Item> inventory;
 
     private Set<Score> scores;
 
     public User(String username, String password, Integer money, String email, Set<Login> logins, Set<UserRole> roles,
-                List<Item> inventory, Set<Score> scores) {
+                Set<Item> inventory, Set<Score> scores) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
@@ -51,7 +52,7 @@ public class User implements UserDetails {
         this.email = email;
         this.logins = logins;
         this.roles = roles;
-        this.inventory = Objects.requireNonNullElse(inventory, new ArrayList<>());
+        this.inventory = Objects.requireNonNullElse(inventory, new LinkedHashSet<>());
         this.scores = scores;
     }
 
@@ -125,11 +126,11 @@ public class User implements UserDetails {
 
     @JsonManagedReference
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REFRESH)
-    public List<Item> getInventory() {
+    public Set<Item> getInventory() {
         return inventory;
     }
 
-    public void setInventory(List<Item> inventory) {
+    public void setInventory(Set<Item> inventory) {
         this.inventory = inventory;
     }
 
