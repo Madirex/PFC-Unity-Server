@@ -1,4 +1,5 @@
 -- -- DROP DATABASE IF EXISTS gameserver; /* ONLY ON RESET PURPOSES (need restart and comment this line also)*/
+
 -- /* Usuario y Login */
 -- CREATE TABLE login
 -- (
@@ -139,8 +140,36 @@
 -- VALUES ('d6eef0f1-8ce4-4d7d-8c4d-250917def843', /*id*/
 --         null, /*user*/
 --         'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop*/
---         'Pistola', /*name*/
+--         'sword4', /*name*/
 --         100, /*price*/
+--         'WEAPON', /*item_type*/
+--         10.0); /*amount_power*/
+--
+-- INSERT INTO item (id, user, shop, name, price, item_type, amount_power)
+-- VALUES ('d6e870f1-8ce4-4djd-9l4d-250917def843', /*id*/
+--         null, /*user*/
+--         'a8b8f8e7-f8e7-4f7f-a8e7-f8e7f8e7f8e7', /*shop*/
+--         'sword3', /*name*/
+--         50, /*price*/
+--         'WEAPON', /*item_type*/
+--         10.0); /*amount_power*/
+--
+--
+-- INSERT INTO item (id, user, shop, name, price, item_type, amount_power)
+-- VALUES ('d6eef0f1-8ce4-4d7d-8c4d-250917def840', /*id*/
+--         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
+--         null, /*shop*/
+--         'sword', /*name*/
+--         100, /*price*/
+--         'WEAPON', /*item_type*/
+--         10.0); /*amount_power*/
+--
+-- INSERT INTO item (id, user, shop, name, price, item_type, amount_power)
+-- VALUES ('d6e870f1-8ce4-4djd-9l4d-250917def849', /*id*/
+--         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
+--         null, /*shop*/
+--         'sword2', /*name*/
+--         50, /*price*/
 --         'WEAPON', /*item_type*/
 --         10.0); /*amount_power*/
 --
@@ -148,7 +177,7 @@
 -- VALUES ('e9cb4fa0-0b77-4665-957b-d52d33123fda', /*id*/
 --         '261eafa9-4611-44e9-9cfe-6ede4b41324a', /*user*/
 --         null, /*shop*/
---         'Armadura cabeza', /*name*/
+--         'armor', /*name*/
 --         200, /*price*/
 --         'ARMOR', /*item_type*/
 --         5.5); /*amount_power*/

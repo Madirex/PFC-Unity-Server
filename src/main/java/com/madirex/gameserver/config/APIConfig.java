@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @Configuration
 @EnableJpaAuditing
 public class APIConfig {
-    //TODO: cogerlo todo mejor del application properties
     @Value("${api.name}")
     public static final String API_NAME = "GameServer API";
     @Value("${api.description}")
@@ -30,6 +29,5 @@ public class APIConfig {
     @Value("${api.author}.email")
     public static final String AUTHOR_EMAIL = "contact@madirex.com";
 
-    //TODO: hacer algo con el TEST TOKEN para no tener que editarlo cada vez que se quiera testear
-    public static final String TEST_TOKEN = JwtTokenProvider.TOKEN_PREFIX + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNjFlYWZhOS00NjExLTQ0ZTktOWNmZS02ZWRlNGI0MTMyNGEiLCJpYXQiOjE2NTA5MDc4MzksImV4cCI6MTY1MDk5NDIzOSwibmFtZSI6IkFkbWluIiwicm9sZXMiOiJBRE1JTiwgUExBWUVSIn0.xcvvFe8TadE7im67EFmkjjGOYa0DFesQczUN0_T7El40VuIUOaPsbYoiS2U60SWacQ4UGeFqFKjiBEKmzR-JCQ";
+    public static final String TEST_TOKEN = JwtTokenProvider.TOKEN_PREFIX + "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyNjFlYWZhOS00NjExLTQ0ZTktOWNmZS02ZWRlNGI0MTMyNGEiLCJpYXQiOjE2NTQ0NDIyMjcsImV4cCI6MTY1NDUyODYyNywibmFtZSI6IkFkbWluIiwicm9sZXMiOiJBRE1JTiwgUExBWUVSIn0.YgN-IDXfvG1utMwuY6XXQZFC5E1Bh5PbslGCWI5ExEr2yngjKFOX2lbj5md_Gx12Tiv8xhpp-5aOOgzoJuYBPQ";
 }

@@ -9,15 +9,3 @@ public class GameServerApplication {
         SpringApplication.run(GameServerApplication.class, args);
     }
 }
-
-
-/*
-TODO: - TESTINGS DEL SERVIDOR:
-	1. Hacer que todos los MOCK de controladores funcionen
-	2. Hacer que todos los Mock MVC Test de controladores funcionen
-	3. Hacer que todos los tests de Integration funcionen
-	4. Cobertura 100%
-    - COMENTARIOS TODO Y FIXME DEL SERVIDOR
-    - PASAR A KOTLIN
-    - DOCUMENTAR ABSOLUTAMENTE TODO
- */

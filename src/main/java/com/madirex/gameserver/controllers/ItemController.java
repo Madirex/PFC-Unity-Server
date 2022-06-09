@@ -7,14 +7,17 @@ import com.madirex.gameserver.dto.items.UpdateItemDTO;
 import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ItemMapper;
+import com.madirex.gameserver.mapper.LoginMapper;
 import com.madirex.gameserver.model.Item;
 import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.repositories.ItemRepository;
+import com.madirex.gameserver.repositories.LoginRepository;
 import com.madirex.gameserver.services.items.ItemService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -24,11 +27,18 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(APIConfig.API_PATH + "/item")
-@RequiredArgsConstructor
+
 public class ItemController {
     private final ItemService itemService;
     private final ItemMapper itemMapper;
     private final ItemRepository itemRepository;
+
+    @Autowired
+    public ItemController(ItemService itemService, ItemMapper itemMapper, ItemRepository itemRepository) {
+        this.itemService = itemService;
+        this.itemMapper = itemMapper;
+        this.itemRepository = itemRepository;
+    }
 
     @ApiOperation(value = "Obtener todos los ítems", notes = "Obtiene todos los ítems")
     @ApiResponses(value = {
@@ -41,12 +51,8 @@ public class ItemController {
             @RequestParam("searchQuery") Optional<String> searchQuery
     ) {
         List<Item> items;
-        try {
             items = itemService.findAll();
             return ResponseEntity.ok(itemMapper.toDTO(items));
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
-        }
     }
 
     @ApiOperation(value = "Obtener un ítem por id", notes = "Obtiene un ítem en base al id")
@@ -56,6 +62,7 @@ public class ItemController {
     })
     @GetMapping("/{id}")
     public ResponseEntity<ItemDTO> findById(@PathVariable String id) {
+
         Item item = itemService.findById(id).orElse(null);
         if (item == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado el ítem con la id solicitada");
@@ -72,16 +79,12 @@ public class ItemController {
     })
     @PutMapping("/{id}")
     public ResponseEntity<ItemDTO> update(@PathVariable String id, @RequestBody UpdateItemDTO updateItemDTO) {
-        try {
-            Item updated = itemService.findItemById(id).orElse(null);
-            if (updated == null) {
-                throw new GeneralNotFoundException("Actualizar Item", "Error al actualizar el ítem.");
-            } else {
-                Item created = itemService.updateItem(updateItemDTO, updated.getId());
-                return ResponseEntity.ok(itemMapper.toDTO(created));
-            }
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Actualizar", "Error al actualizar el ítem: " + e.getMessage());
+        Item updated = itemService.findItemById(id).orElse(null);
+        if (updated == null) {
+            throw new GeneralNotFoundException("Actualizar Item", "Error al actualizar el ítem.");
+        } else {
+            Item created = itemService.updateItem(updateItemDTO, updated.getId());
+            return ResponseEntity.ok(itemMapper.toDTO(created));
         }
     }
 
@@ -107,15 +110,11 @@ public class ItemController {
     })
     @PostMapping("/")
     public ResponseEntity<ItemDTO> save(@RequestBody CreateItemDTO createItemDTO) {
-        try {
             if (createItemDTO.getShop() == null || createItemDTO.getName() == null || createItemDTO.getItemType() == null) {
                 throw new GeneralBadRequestException("Insertar Item", "Error al insertar el ítem: La tienda, el nombre y el tipo del ítem deben complementarse.");
             }
             Item inserted = itemService.createItem(createItemDTO);
             return ResponseEntity.ok(itemMapper.toDTO(inserted));
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Insertar Ítem", "Error al insertar el ítem: " + e.getMessage());
-        }
     }
 
     @ApiOperation(value = "Eliminar un ítem", notes = "Elimina un ítem en base a su id")
@@ -126,7 +125,6 @@ public class ItemController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<ItemDTO> delete(@PathVariable String id) {
-        try {
             Item item = itemService.findItemById(id).orElse(null);
             if (item == null) {
                 throw new GeneralNotFoundException("id: " + id, "error al intentar borrar el ítem con id " + id);
@@ -134,8 +132,5 @@ public class ItemController {
                 itemService.deleteItem(item);
                 return ResponseEntity.ok(itemMapper.toDTO(item));
             }
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Eliminar", "Error al borrar el ítem - " + e.getMessage());
-        }
     }
 }

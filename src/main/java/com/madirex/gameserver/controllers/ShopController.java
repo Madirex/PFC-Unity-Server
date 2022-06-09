@@ -38,12 +38,8 @@ public class ShopController {
             @RequestParam("searchQuery") Optional<String> searchQuery
     ) {
         List<Shop> shops;
-        try {
             shops = shopService.findAll();
             return ResponseEntity.ok(shopMapper.toDTO(shops));
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
-        }
     }
 
     @ApiOperation(value = "Obtener una tienda por id", notes = "Obtiene una tienda en base al id")
@@ -89,15 +85,11 @@ public class ShopController {
     })
     @PostMapping("/")
     public ResponseEntity<ShopDTO> save(@RequestBody CreateShopDTO createShopDTO) {
-        try {
             if (createShopDTO.getShopName() == null) {
                 throw new GeneralBadRequestException("Insertar Tienda", "Error al insertar la tienda: Nombre no asignado.");
             }
             Shop inserted = shopService.createShop(createShopDTO);
             return ResponseEntity.ok(shopMapper.toDTO(inserted));
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Insertar Tienda", "Error al insertar la tienda: " + e.getMessage());
-        }
     }
 
 
@@ -109,16 +101,12 @@ public class ShopController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Shop> delete(@PathVariable String id) {
-        try {
-            Shop shop = shopService.findShopById(id).orElse(null);
-            if (shop == null) {
-                throw new GeneralNotFoundException("id: " + id, "error al intentar borrar la tienda con la id " + id);
-            } else {
-                Shop shopDone = shopService.deleteShop(shop);
-                return ResponseEntity.ok(shopDone);
-            }
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Eliminar", "Error al borrar la tienda - " + e.getMessage());
+        Shop shop = shopService.findShopById(id).orElse(null);
+        if (shop == null) {
+            throw new GeneralNotFoundException("id: " + id, "error al intentar borrar la tienda con la id " + id);
+        } else {
+            Shop shopDone = shopService.deleteShop(shop);
+            return ResponseEntity.ok(shopDone);
         }
     }
 

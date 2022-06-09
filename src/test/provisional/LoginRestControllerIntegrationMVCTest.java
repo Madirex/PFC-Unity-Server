@@ -2,9 +2,11 @@ package com.madirex.gameserver.controllers.login;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.madirex.gameserver.config.APIConfig;
+import com.madirex.gameserver.controllers.UserController;
 import com.madirex.gameserver.dto.login.LoginDTO;
 import com.madirex.gameserver.model.Login;
 import com.madirex.gameserver.model.User;
+import org.junit.Before;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -29,7 +31,6 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-//TODO: Todo este test no funciona a causa del token (authorization) - se debe corregir
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureJsonTesters
