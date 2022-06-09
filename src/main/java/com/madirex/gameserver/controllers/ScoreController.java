@@ -44,7 +44,7 @@ public class ScoreController {
         try {
             if (level.isPresent()){
                 try {
-                    int num = Integer.parseInt(level.get()); //TODO: REMOVE
+                    int num = Integer.parseInt(level.get());
                     if (user.isPresent()){
                         scores = scoreService.findAllByLevelAndUserOrderByLevel(level.get(), user.get());
                     }else{

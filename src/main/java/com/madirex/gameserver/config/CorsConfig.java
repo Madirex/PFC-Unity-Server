@@ -13,7 +13,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/rest/services/**")
-                        .allowedOrigins("http://localhost:" + APIConfig.API_PORT) //TODO: host sacar de properties
+                        .allowedOrigins("http://localhost:" + APIConfig.API_PORT)
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .maxAge(3600);
             }

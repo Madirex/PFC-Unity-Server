@@ -40,15 +40,11 @@ public class LoginController {
     @GetMapping("/")
     public ResponseEntity<List<LoginDTO>> findAll() {
         List<Login> logins = null;
-        try {
-            logins = loginRepository.findAll();
-            if (!logins.isEmpty()) {
-                return ResponseEntity.ok(loginMapper.toDTO(logins));
-            } else {
-                throw new GeneralNotFoundException("No hay logins","No se ha encontrado ningún login");
-            }
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
+        logins = loginRepository.findAll();
+        if (!logins.isEmpty()) {
+            return ResponseEntity.ok(loginMapper.toDTO(logins));
+        } else {
+            throw new GeneralNotFoundException("No hay logins","No se ha encontrado ningún login");
         }
     }
 

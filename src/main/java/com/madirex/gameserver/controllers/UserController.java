@@ -60,15 +60,11 @@ public class UserController {
             @RequestParam("searchQuery") Optional<String> searchQuery
     ) {
         List<User> users;
-        try {
-            if (searchQuery.isPresent())
-                users = userService.findByUsernameContainsIgnoreCase(searchQuery.get());
-            else
-                users = userService.findAll();
-            return ResponseEntity.ok(userMapper.toDTO(users));
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
-        }
+        if (searchQuery.isPresent())
+            users = userService.findByUsernameContainsIgnoreCase(searchQuery.get());
+        else
+            users = userService.findAll();
+        return ResponseEntity.ok(userMapper.toDTO(users));
     }
 
     @ApiOperation(value = "Obtener un usuario por id", notes = "Obtiene un usuario en base al id")
@@ -134,12 +130,8 @@ public class UserController {
     })
     @PutMapping("/me")
     public ResponseEntity<UserDTO> mePut(@AuthenticationPrincipal User user, @RequestBody UserModifyDTO userModifyDTO) {
-        try {
             User created = userService.updateUser(userModifyDTO, user);
             return ResponseEntity.ok(userMapper.toDTO(created));
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Actualizar", "Error al actualizar el usuario: " + e.getMessage());
-        }
     }
 
     @ApiOperation(value = "Loguear un usuario", notes = "Loguea un usuario")
@@ -198,7 +190,6 @@ public class UserController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<User> delete(@PathVariable String id) {
-        try {
             User user = userService.findUserById(id).orElse(null);
             if (user == null) {
                 throw new GeneralNotFoundException("id: " + id, "error al intentar borrar el usuario con el id " + id);
@@ -206,9 +197,6 @@ public class UserController {
                 User userDone = userService.deleteUser(user);
                 return ResponseEntity.ok(userDone);
             }
-        } catch (Exception e) {
-            throw new GeneralBadRequestException("Eliminar", "Error al borrar el usuario - " + e.getMessage());
-        }
     }
 
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(User user, String jwtToken) {

@@ -1,9 +1,10 @@
-package com.madirex.gameserver.controllers.login;
+package com.madirex.gameserver.controllers;
 
 import com.madirex.gameserver.config.APIConfig;
 import com.madirex.gameserver.controllers.LoginController;
 import com.madirex.gameserver.dto.login.LoginDTO;
 import com.madirex.gameserver.dto.user.LoginUserDTO;
+import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.LoginMapper;
 import com.madirex.gameserver.model.Login;
@@ -88,6 +89,29 @@ public class LoginControllerMockTest {
                 () -> assertEquals(res.get(0).getInstant(), login.getInstant()),
                 () -> assertEquals(res.get(0).getToken(), login.getToken())
         );
+    }
+
+    @Test
+    void getAllLogins() {
+        LoginUserDTO loginUserDTO = LoginUserDTO.builder()
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .build();
+        LoginDTO dto = LoginDTO.builder()
+                .user(loginUserDTO)
+                .instant(login.getInstant())
+                .token(login.getToken())
+                .build();
+
+        Mockito.when(loginRepository.findAll())
+                .thenReturn(List.of(login));
+
+        Mockito.when(loginMapper.toDTO(List.of(login))).thenReturn(List.of(dto));
+
+
+        assertThrows(GeneralBadRequestException.class, () -> {
+            loginController.findAllLogins(10,2);
+        });
     }
 
     @Test
