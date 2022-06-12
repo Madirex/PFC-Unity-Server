@@ -19,6 +19,14 @@ import java.util.Map;
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
     private final ObjectMapper mapper;
 
+    /**
+     *
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param authException AuthenticationException
+     * @throws IOException IOException
+     * @throws ServletException ServletException
+     */
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
             throws IOException, ServletException {

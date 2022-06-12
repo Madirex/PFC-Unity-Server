@@ -16,6 +16,11 @@ import java.util.ArrayList;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
+
+    /**
+     *  API Product
+     * @return Docket
+     */
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -26,6 +31,10 @@ public class SwaggerConfig {
                 .apiInfo(metaInfo());
     }
 
+    /**
+     * Info de API
+     * @return API Info
+     */
     private ApiInfo metaInfo() {
         return new ApiInfo(
             APIConfig.API_NAME, APIConfig.API_DESCRIPTION, APIConfig.API_VERSION, "Terms of Service",

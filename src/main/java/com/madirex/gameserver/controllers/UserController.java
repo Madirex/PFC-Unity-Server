@@ -49,6 +49,11 @@ public class UserController {
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
 
+    /**
+     * Obtener todos los usuarios
+     * @param searchQuery Consulta de búsqueda
+     * @return Respuesta - Lista de User DTO
+     */
     @ApiOperation(value = "Obtener todos los usuarios", notes = "Obtiene todos los usuarios")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class, responseContainer = "List"),
@@ -67,6 +72,11 @@ public class UserController {
         return ResponseEntity.ok(userMapper.toDTO(users));
     }
 
+    /**
+     * Obtener un usuario por ID
+     * @param id ID
+     * @return Respuesta - Usuario DTO
+     */
     @ApiOperation(value = "Obtener un usuario por id", notes = "Obtiene un usuario en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -82,6 +92,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Obtener un usuario por nombre de usuario
+     * @param username nombre de usuario
+     * @return Respuesta - User DTO
+     */
     @ApiOperation(value = "Obtener un usuario por username", notes = "Obtiene un usuario en base al username")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -97,6 +112,11 @@ public class UserController {
         }
     }
 
+    /**
+     * Obtener un usuario por email
+     * @param email email
+     * @return Respuesta - Usuario DTO
+     */
     @ApiOperation(value = "Obtener un usuario por email", notes = "Obtiene un usuario en base al email")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -112,7 +132,11 @@ public class UserController {
         }
     }
 
-
+    /**
+     * Obtener un usuario
+     * @param user usuario
+     * @return usuario DTO
+     */
     @ApiOperation(value = "Obtener un usuario", notes = "Obtiene un usuario que esta logueado")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -123,6 +147,12 @@ public class UserController {
         return userMapper.toDTO(user);
     }
 
+    /**
+     * Actualizar usuario
+     * @param user usuario a actualizar
+     * @param userModifyDTO datos nuevos
+     * @return Respuesta - Usuario DTO
+     */
     @ApiOperation(value = "Actualizar usuario", notes = "Actualiza el usuario logueado")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserModifyDTO.class),
@@ -134,6 +164,11 @@ public class UserController {
             return ResponseEntity.ok(userMapper.toDTO(created));
     }
 
+    /**
+     * Loguear un usuario
+     * @param loginRequest Petición de usuario
+     * @return JwtUserResponse
+     */
     @ApiOperation(value = "Loguear un usuario", notes = "Loguea un usuario")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Created", response = UserDTO.class),
@@ -157,6 +192,11 @@ public class UserController {
         return convertUserEntityAndTokenToJwtUserResponse(user, jwtToken);
     }
 
+    /**
+     * Crear un usuario
+     * @param newUser nuevo usuario
+     * @return DTO de usuario
+     */
     @ApiOperation(value = "Crear un usuario", notes = "Crea un usuario")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Created", response = UserDTO.class),
@@ -182,6 +222,11 @@ public class UserController {
         return userMapper.toDTO(userService.save(newUser));
     }
 
+    /**
+     * Eliminar un usuario
+     * @param id ID
+     * @return Respuesta - Usuario
+     */
     @ApiOperation(value = "Eliminar un usuario", notes = "Elimina un usuario en base a su id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UserDTO.class),
@@ -199,6 +244,12 @@ public class UserController {
             }
     }
 
+    /**
+     * Convertir entidad de usuario y token a JWT respuesta de usuario
+     * @param user usuario
+     * @param jwtToken Token JWT
+     * @return JWTUserResponse
+     */
     private JwtUserResponse convertUserEntityAndTokenToJwtUserResponse(User user, String jwtToken) {
         return JwtUserResponse
                 .jwtUserResponseBuilder()

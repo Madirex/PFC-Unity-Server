@@ -27,6 +27,11 @@ public class ShopController {
     private final ShopMapper shopMapper;
     private final ShopRepository shopRepository;
 
+    /**
+     * Obtener todas las tiendas
+     * @param searchQuery consulta de búsqueda
+     * @return respuesta - lista de DTO
+     */
     @ApiOperation(value = "Obtener todas las tiendas", notes = "Obtiene todas las tiendas")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ShopDTO.class, responseContainer = "List"),
@@ -42,6 +47,11 @@ public class ShopController {
             return ResponseEntity.ok(shopMapper.toDTO(shops));
     }
 
+    /**
+     * Obtener una tienda por ID
+     * @param id ID
+     * @return respuesta - Shop DTO
+     */
     @ApiOperation(value = "Obtener una tienda por id", notes = "Obtiene una tienda en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ShopDTO.class),
@@ -57,6 +67,12 @@ public class ShopController {
         }
     }
 
+    /**
+     * Actualizar una tienda
+     * @param id ID de la tienda a actualizar
+     * @param createShopDTO datos nuevos de la tienda
+     * @return respuesta - Shop DTO
+     */
     @ApiOperation(value = "Actualizar una tienda", notes = "Actualiza una tienda en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = CreateShopDTO.class),
@@ -78,6 +94,11 @@ public class ShopController {
         }
     }
 
+    /**
+     * Crear una tienda
+     * @param createShopDTO Tienda a crear
+     * @return respuesta - tienda creada
+     */
     @ApiOperation(value = "Crear una tienda", notes = "Crea una tienda")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Created", response = CreateShopDTO.class),
@@ -92,7 +113,11 @@ public class ShopController {
             return ResponseEntity.ok(shopMapper.toDTO(inserted));
     }
 
-
+    /**
+     * Eliminar una tienda
+     * @param id ID
+     * @return Respuesta - Tienda
+     */
     @ApiOperation(value = "Eliminar una tienda", notes = "Elimina una tienda en base a su id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ShopDTO.class),

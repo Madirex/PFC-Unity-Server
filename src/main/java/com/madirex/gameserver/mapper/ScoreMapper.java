@@ -14,10 +14,20 @@ import java.util.stream.Collectors;
 public class ScoreMapper {
     private final ModelMapper modelMapper;
 
+    /**
+     * Convertir DAO a DTO
+     * @param score DAO
+     * @return DTO
+     */
     public ScoreDTO toDTO(Score score) {
         return modelMapper.map(score, ScoreDTO.class);
     }
 
+    /**
+     * Convertir lista DAO a lista DTO
+     * @param scores lista DAO
+     * @return lista DTO
+     */
     public List<ScoreDTO> toDTO(List<Score> scores) {
         return scores.stream().map(this::toDTO).collect(Collectors.toList());
     }
