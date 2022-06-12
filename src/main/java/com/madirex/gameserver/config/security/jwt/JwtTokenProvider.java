@@ -27,6 +27,11 @@ public class JwtTokenProvider {
     @Value("${jwt.token-expiration:86400}")
     private int jwtExpirationInSeconds;
 
+    /**
+     * Generar un token
+     * @param authentication Authentication
+     * @return token generado
+     */
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtExpirationInSeconds * 1000));
@@ -45,6 +50,11 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    /**
+     * Recibir usuario por ID desde JWT
+     * @param token token JWT
+     * @return usuario
+     */
     public String getUserIdFromJWT(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(secretJwt.getBytes()))
@@ -54,6 +64,11 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
+    /**
+     * Validar token
+     * @param authToken token a validar
+     * @return ¿token correcto?
+     */
     public boolean validateToken(String authToken) {
         try {
             Jwts.parserBuilder()

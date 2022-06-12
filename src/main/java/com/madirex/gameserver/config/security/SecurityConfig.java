@@ -28,17 +28,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAuthorizationFilter jwtAuthorizationFilter;
 
+    /**
+     * Autenticación Manager (Bean)
+     * @return AuthenticationManager
+     * @throws Exception General Exception
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
+    /**
+     * Configuración
+     * @param auth AuthenticationManagerBuilder
+     * @throws Exception General Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
+    /**
+     * Configura la seguridad
+     * @param http HttpSecurity
+     * @throws Exception General Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

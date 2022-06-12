@@ -14,10 +14,20 @@ import java.util.stream.Collectors;
 public class ItemMapper {
     private final ModelMapper modelMapper;
 
+    /**
+     * Convertir DAO a DTO
+     * @param item DAO
+     * @return DTO
+     */
     public ItemDTO toDTO(Item item) {
         return modelMapper.map(item, ItemDTO.class);
     }
 
+    /**
+     * Convertir lista DAO a lista DTO
+     * @param items lista DAO
+     * @return lista DTO
+     */
     public List<ItemDTO> toDTO(List<Item> items) {
         return items.stream().map(this::toDTO).collect(Collectors.toList());
     }

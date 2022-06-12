@@ -29,6 +29,12 @@ public class ScoreController {
     private final ScoreMapper scoreMapper;
     private final ScoreRepository scoreRepository;
 
+    /**
+     * Obtener todas las puntuaciones
+     * @param level nivel
+     * @param user usuario
+     * @return respuesta - lista de Score DTO
+     */
     @ApiOperation(value = "Obtener todas las puntuaciones", notes = "Obtiene todas las puntuaciones")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class, responseContainer = "List"),
@@ -66,6 +72,11 @@ public class ScoreController {
         }
     }
 
+    /**
+     * Eliminar una puntuación
+     * @param id ID
+     * @return respuesta - score DTO
+     */
     @ApiOperation(value = "Eliminar un score", notes = "Elimina un score en base a su id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
@@ -86,6 +97,11 @@ public class ScoreController {
         }
     }
 
+    /**
+     * Obtener una puntuación por ID
+     * @param id ID
+     * @return respuesta - score DTO
+     */
     @ApiOperation(value = "Obtener una puntuación por id", notes = "Obtiene una puntuación en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
@@ -101,6 +117,12 @@ public class ScoreController {
         }
     }
 
+    /**
+     * Crear puntuación
+     * @param user usuario que crea la puntuación
+     * @param createScoreDTO puntuación a crear
+     * @return respuesta - score DTO
+     */
     @ApiOperation(value = "Crear score", notes = "Opción de crear score")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),

@@ -25,6 +25,14 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider tokenProvider;
     private final InfoUserDetailsService userDetailsService;
 
+    /**
+     * Hacer filtro interno
+     * @param request HttpServletRequest
+     * @param response HttpServletResponse
+     * @param filterChain FilterChain
+     * @throws ServletException ServletException
+     * @throws IOException IOException
+     */
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws
             ServletException, IOException {
@@ -45,6 +53,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
+    /**
+     * Recibir JWT de una consulta
+     * @param request consulta
+     * @return JWT
+     */
     private String getJwtFromRequest(HttpServletRequest request) {
         String bearerToken = request.getHeader(JwtTokenProvider.TOKEN_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(JwtTokenProvider.TOKEN_PREFIX)) {

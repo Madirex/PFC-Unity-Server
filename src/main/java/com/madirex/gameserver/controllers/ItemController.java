@@ -33,6 +33,12 @@ public class ItemController {
     private final ItemMapper itemMapper;
     private final ItemRepository itemRepository;
 
+    /**
+     * Constructor
+     * @param itemService servicio
+     * @param itemMapper mapper
+     * @param itemRepository repositorio
+     */
     @Autowired
     public ItemController(ItemService itemService, ItemMapper itemMapper, ItemRepository itemRepository) {
         this.itemService = itemService;
@@ -40,6 +46,11 @@ public class ItemController {
         this.itemRepository = itemRepository;
     }
 
+    /**
+     * Obtiene todos los ítems
+     * @param searchQuery consulta de búsqueda
+     * @return respuesta - lista de Item DTO
+     */
     @ApiOperation(value = "Obtener todos los ítems", notes = "Obtiene todos los ítems")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ItemDTO.class, responseContainer = "List"),
@@ -55,6 +66,11 @@ public class ItemController {
             return ResponseEntity.ok(itemMapper.toDTO(items));
     }
 
+    /**
+     * Obtener un ítem por id
+     * @param id ID
+     * @return respuesta - item DTO
+     */
     @ApiOperation(value = "Obtener un ítem por id", notes = "Obtiene un ítem en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ItemDTO.class),
@@ -71,6 +87,12 @@ public class ItemController {
         }
     }
 
+    /**
+     * Actualizar un ítem dada una ID
+     * @param id ID
+     * @param updateItemDTO Datos nuevos del ítem
+     * @return respuesta - item DTO
+     */
     @ApiOperation(value = "Actualizar un ítem", notes = "Actualiza un ítem en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = UpdateItemDTO.class),
@@ -88,6 +110,12 @@ public class ItemController {
         }
     }
 
+    /**
+     * Comprar un ítem
+     * @param user Usuario
+     * @param id ID del ítem
+     * @return respuesta - item DTO
+     */
     @ApiOperation(value = "Comprar el ítem", notes = "Opción de compra del ítem para el jugador")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ItemDTO.class),
@@ -103,6 +131,11 @@ public class ItemController {
         }
     }
 
+    /**
+     * Crear un ítem
+     * @param createItemDTO ítem a crear
+     * @return respuesta - item DTO
+     */
     @ApiOperation(value = "Crear un ítem", notes = "Crea un ítem")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Created", response = CreateItemDTO.class),
@@ -117,6 +150,11 @@ public class ItemController {
             return ResponseEntity.ok(itemMapper.toDTO(inserted));
     }
 
+    /**
+     * Eliminar un ítem
+     * @param id ID del ítem a eliminar
+     * @return respuesta - item DTO
+     */
     @ApiOperation(value = "Eliminar un ítem", notes = "Elimina un ítem en base a su id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ItemDTO.class),
