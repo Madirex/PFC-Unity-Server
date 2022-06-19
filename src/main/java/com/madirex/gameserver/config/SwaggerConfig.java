@@ -16,16 +16,25 @@ import java.util.ArrayList;
 @EnableSwagger2
 @Configuration
 public class SwaggerConfig {
+
+    /**
+     *  API Product
+     * @return Docket
+     */
     @Bean
     public Docket productApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .paths(PathSelectors.any())
-                .apis(RequestHandlerSelectors.basePackage("com.madirex.gameserver.controller")) //TODO: get el paquete este sin tener que cambiarlo todo el rato
+                .apis(RequestHandlerSelectors.basePackage("com.madirex.gameserver.controller"))
                 .build()
                 .apiInfo(metaInfo());
     }
 
+    /**
+     * Info de API
+     * @return API Info
+     */
     private ApiInfo metaInfo() {
         return new ApiInfo(
             APIConfig.API_NAME, APIConfig.API_DESCRIPTION, APIConfig.API_VERSION, "Terms of Service",

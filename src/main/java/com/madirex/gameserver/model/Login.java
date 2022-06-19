@@ -21,6 +21,7 @@ import java.util.UUID;
 @Table(name = "login")
 @ToString
 public class Login {
+    @Column(unique = true)
     private String id;
     private String token;
     private Date instant;
@@ -65,8 +66,8 @@ public class Login {
         return instant;
     }
 
-    public void setInstant(Date instance) {
-        this.instant = instance;
+    public void setInstant(Date instant) {
+        this.instant = instant;
     }
 
     @ManyToOne

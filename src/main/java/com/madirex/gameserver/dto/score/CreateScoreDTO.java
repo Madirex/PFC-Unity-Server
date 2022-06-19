@@ -1,18 +1,15 @@
 package com.madirex.gameserver.dto.score;
 
-import com.madirex.gameserver.model.User;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class CreateScoreDTO {
-    private User user;
+    @NotNull(message = "El nivel no puede ser nulo")
     private int level;
+    @NotNull(message = "La cantidad no puede ser nula")
     private int amount;
-    private LocalDateTime date = LocalDateTime.now();
 }

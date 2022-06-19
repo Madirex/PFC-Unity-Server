@@ -1,6 +1,5 @@
 package com.madirex.gameserver.mapper;
 
-import com.madirex.gameserver.dto.score.CreateScoreDTO;
 import com.madirex.gameserver.dto.score.ScoreDTO;
 import com.madirex.gameserver.model.Score;
 import lombok.RequiredArgsConstructor;
@@ -15,18 +14,20 @@ import java.util.stream.Collectors;
 public class ScoreMapper {
     private final ModelMapper modelMapper;
 
+    /**
+     * Convertir DAO a DTO
+     * @param score DAO
+     * @return DTO
+     */
     public ScoreDTO toDTO(Score score) {
         return modelMapper.map(score, ScoreDTO.class);
     }
 
-    public Score fromDTO(CreateScoreDTO scoreDTO) {
-        return modelMapper.map(scoreDTO, Score.class);
-    }
-
-    public Score fromDTOCreate(CreateScoreDTO scoreDTO) {
-        return modelMapper.map(scoreDTO, Score.class);
-    }
-
+    /**
+     * Convertir lista DAO a lista DTO
+     * @param scores lista DAO
+     * @return lista DTO
+     */
     public List<ScoreDTO> toDTO(List<Score> scores) {
         return scores.stream().map(this::toDTO).collect(Collectors.toList());
     }

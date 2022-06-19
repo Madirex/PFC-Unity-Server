@@ -7,6 +7,7 @@ import com.madirex.gameserver.exceptions.GeneralBadRequestException;
 import com.madirex.gameserver.exceptions.GeneralNotFoundException;
 import com.madirex.gameserver.mapper.ScoreMapper;
 import com.madirex.gameserver.model.Score;
+import com.madirex.gameserver.model.User;
 import com.madirex.gameserver.repositories.ScoreRepository;
 import com.madirex.gameserver.services.scores.ScoreService;
 import io.swagger.annotations.ApiOperation;
@@ -14,9 +15,11 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(APIConfig.API_PATH + "/score")
@@ -26,6 +29,12 @@ public class ScoreController {
     private final ScoreMapper scoreMapper;
     private final ScoreRepository scoreRepository;
 
+    /**
+     * Obtener todas las puntuaciones
+     * @param level nivel
+     * @param user usuario
+     * @return respuesta - lista de Score DTO
+     */
     @ApiOperation(value = "Obtener todas las puntuaciones", notes = "Obtiene todas las puntuaciones")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class, responseContainer = "List"),
@@ -33,23 +42,73 @@ public class ScoreController {
             @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
     })
     @GetMapping("/")
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<List<ScoreDTO>> findAll(
+            @RequestParam("level") Optional<String> level,
+            @RequestParam("user") Optional<String> user
+    ) {
         List<Score> scores;
         try {
-            scores = scoreService.findAll();
+            if (level.isPresent()){
+                try {
+                    int num = Integer.parseInt(level.get());
+                    if (user.isPresent()){
+                        scores = scoreService.findAllByLevelAndUserOrderByLevel(level.get(), user.get());
+                    }else{
+                        scores = scoreService.findAllByLevelOrderByAmountDesc(num);
+                    }
+                } catch (final NumberFormatException e) {
+                    throw new GeneralBadRequestException("Selección de Datos", "el nivel introducido debe de ser un número entero");
+                }
+            }else{
+                if(user.isPresent()){
+                    scores = scoreService.findAllByUserOrderByLevel(user.get());
+                }else{
+                    scores = scoreService.findAll();
+                }
+            }
             return ResponseEntity.ok(scoreMapper.toDTO(scores));
         } catch (Exception e) {
             throw new GeneralBadRequestException("Selección de Datos", "Parámetros de consulta incorrectos");
         }
     }
 
+    /**
+     * Eliminar una puntuación
+     * @param id ID
+     * @return respuesta - score DTO
+     */
+    @ApiOperation(value = "Eliminar un score", notes = "Elimina un score en base a su id")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class),
+            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ScoreDTO> delete(@PathVariable String id) {
+        Score score = scoreRepository.findById(id).orElse(null);
+        if (score == null) {
+            throw new GeneralNotFoundException(id,"No se ha encontrado el score con la id solicitada");
+        }
+        try {
+            scoreRepository.delete(score);
+            return ResponseEntity.ok(scoreMapper.toDTO(score));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Eliminar", "Error al borrar el score");
+        }
+    }
+
+    /**
+     * Obtener una puntuación por ID
+     * @param id ID
+     * @return respuesta - score DTO
+     */
     @ApiOperation(value = "Obtener una puntuación por id", notes = "Obtiene una puntuación en base al id")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
             @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable String id) {
+    public ResponseEntity<ScoreDTO> findById(@PathVariable String id) {
         Score score = scoreService.findById(id).orElse(null);
         if (score == null) {
             throw new GeneralNotFoundException(id, "No se ha encontrado la puntuación con la id solicitada");
@@ -58,14 +117,25 @@ public class ScoreController {
         }
     }
 
-    @ApiOperation(value = "Crear una puntuación", notes = "Crea una puntación")
+    /**
+     * Crear puntuación
+     * @param user usuario que crea la puntuación
+     * @param createScoreDTO puntuación a crear
+     * @return respuesta - score DTO
+     */
+    @ApiOperation(value = "Crear score", notes = "Opción de crear score")
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Created", response = ScoreDTO.class),
-            @ApiResponse(code = 400, message = "Bad Request", response = GeneralBadRequestException.class)
+            @ApiResponse(code = 200, message = "OK", response = ScoreDTO.class),
+            @ApiResponse(code = 404, message = "Not Found", response = GeneralNotFoundException.class)
     })
     @PostMapping("/")
-    public ScoreDTO newScore(@RequestBody CreateScoreDTO newScore) {
-        return scoreMapper.toDTO(scoreService.save(newScore));
+    public ResponseEntity<ScoreDTO> buyItem(@AuthenticationPrincipal User user, @RequestBody CreateScoreDTO createScoreDTO) {
+        try {
+            Score created = scoreService.createScore(createScoreDTO, user);
+            return ResponseEntity.ok(scoreMapper.toDTO(created));
+        } catch (Exception e) {
+            throw new GeneralBadRequestException("Crear score", "Error al crear Score: " + e.getMessage());
+        }
     }
 
 }

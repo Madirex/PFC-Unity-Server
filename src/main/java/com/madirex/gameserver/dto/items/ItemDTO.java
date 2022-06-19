@@ -1,14 +1,21 @@
 package com.madirex.gameserver.dto.items;
 
 import com.madirex.gameserver.model.ItemType;
+import com.madirex.gameserver.model.Shop;
 import com.madirex.gameserver.model.User;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ItemDTO {
     private String id;
-    private User user;
-    private String shopId;
+    //private User user;
+    //private Shop shop;
 
     @NotNull(message = "El nombre no puede ser nulo")
     private String name;

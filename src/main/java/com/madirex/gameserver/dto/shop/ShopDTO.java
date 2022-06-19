@@ -1,5 +1,6 @@
 package com.madirex.gameserver.dto.shop;
 
+import com.madirex.gameserver.dto.items.ItemDTO;
 import com.madirex.gameserver.model.Item;
 import lombok.*;
 
@@ -19,6 +20,6 @@ public class ShopDTO {
     @NotBlank(message = "El nombre de la tienda no puede estar vacío")
     private String shopName;
 
-    @NotNull(message = "Los items no pueden ser nulos")
-    private List<Item> items;
+    @NotNull(message = "Los ítems no pueden ser nulos")
+    private List<ItemDTO> items;
 }

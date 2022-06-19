@@ -18,16 +18,20 @@ import java.util.stream.Collectors;
 public class JwtTokenProvider {
     public static final String TOKEN_HEADER = "Authorization";
     public static final String TOKEN_PREFIX = "Bearer";
+    public static final String TOKEN_SECRET = "L2aUXz9EsdfCsdfUTPPtBlNda1wCaQlsdgsg7pC0CUMysdgFBPfhfgwm6ZpfDmdKJj509g4mlk00cd1Sq9otDfghxufghsvEn9PGCSg3YTy4Qfg6fgPfghkvmncjhg8jPdpJXmp38fghRghjgXtBfghztfghxdPfghfhtfghPhgGfghghvjrbm3kSHprtxjkRqMMr3bJqJ7bk23o0849hgeupi35hFSS59XzfghF9BxiphgjcrghjgQGL7X8SnEM8Xbr5o8gfhnEklj439g845nt345h46h";
     public static final String TOKEN_TYPE = "JWT";
 
-    @Value("${jwt.secret:L2aUXz9EsdfCsdfUTPPtBlNda1wCaQlsdgsg7pC0CUMysdgFBPfhfgwm6ZpfDmdKJj509g4mlk00cd1Sq9otDfghxufghsvEn" +
-            "9PGCSg3YTy4Qfg6fgPfghkvmncjhg8jPdpJXmp38fghRghjgXtBfghztfghxdPfghfhtfghPhgGfghghvjrbm3kSHprtxjkRqMMr3bJqJ7bk" +
-            "23o0849hgeupi35hFSS59XzfghF9BxiphgjcrghjgQGL7X8SnEM8Xbr5o8gfhnEklj439g845nt345h46h}")
+    @Value("${jwt.secret:" + TOKEN_SECRET + "}")
     private String secretJwt;
 
     @Value("${jwt.token-expiration:86400}")
     private int jwtExpirationInSeconds;
 
+    /**
+     * Generar un token
+     * @param authentication Authentication
+     * @return token generado
+     */
     public String generateToken(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         Date tokenExpirationDate = new Date(System.currentTimeMillis() + (jwtExpirationInSeconds * 1000));
@@ -46,6 +50,11 @@ public class JwtTokenProvider {
                 .compact();
     }
 
+    /**
+     * Recibir usuario por ID desde JWT
+     * @param token token JWT
+     * @return usuario
+     */
     public String getUserIdFromJWT(String token) {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(Keys.hmacShaKeyFor(secretJwt.getBytes()))
@@ -55,6 +64,11 @@ public class JwtTokenProvider {
         return claims.getSubject();
     }
 
+    /**
+     * Validar token
+     * @param authToken token a validar
+     * @return ¿token correcto?
+     */
     public boolean validateToken(String authToken) {
         try {
             Jwts.parserBuilder()

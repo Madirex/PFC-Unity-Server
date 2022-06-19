@@ -1,4 +1,5 @@
 package com.madirex.gameserver.model;
+
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,23 +12,18 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "users")
+@Table(name = "user")
 @ToString
 public class User implements UserDetails {
+    @Column(unique = true)
     private String id;
-
     @Column(unique = true)
     private String email;
 
@@ -36,24 +32,27 @@ public class User implements UserDetails {
 
     private String password;
 
+    private Integer money;
+
     @ToString.Exclude
     private Set<Login> logins;
 
     private Set<UserRole> roles;
 
-    private List<Item> inventory;
+    private Set<Item> inventory;
 
     private Set<Score> scores;
 
-    public User(String username, String password, String email, Set<Login> logins, Set<UserRole> roles,
-                List<Item> inventory, Set<Score> scores) {
+    public User(String username, String password, Integer money, String email, Set<Login> logins, Set<UserRole> roles,
+                Set<Item> inventory, Set<Score> scores) {
         this.id = UUID.randomUUID().toString();
         this.username = username;
         this.password = password;
+        this.money = Objects.requireNonNullElse(money, 0);
         this.email = email;
         this.logins = logins;
         this.roles = roles;
-        this.inventory = inventory;
+        this.inventory = Objects.requireNonNullElse(inventory, new LinkedHashSet<>());
         this.scores = scores;
     }
 
@@ -84,6 +83,15 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    @NotBlank(message = "El dinero no puede estar vacío")
+    public Integer getMoney() {
+        return money;
+    }
+
+    public void setMoney(Integer money) {
+        this.money = money;
     }
 
     @Column(unique = true)
@@ -117,12 +125,12 @@ public class User implements UserDetails {
     }
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REMOVE)
-    public List<Item> getInventory() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.REFRESH)
+    public Set<Item> getInventory() {
         return inventory;
     }
 
-    public void setInventory(List<Item> inventory) {
+    public void setInventory(Set<Item> inventory) {
         this.inventory = inventory;
     }
 

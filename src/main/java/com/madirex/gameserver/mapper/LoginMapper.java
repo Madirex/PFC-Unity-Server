@@ -14,14 +14,29 @@ import java.util.stream.Collectors;
 public class LoginMapper {
     private final ModelMapper modelMapper;
 
+    /**
+     * Convertir DAO a DTO
+     * @param login DAO
+     * @return DTO
+     */
     public LoginDTO toDTO(Login login) {
         return modelMapper.map(login, LoginDTO.class);
     }
 
+    /**
+     * Convertir DTO a DAO
+     * @param loginDTO DTO
+     * @return DAO
+     */
     public Login fromDTO(LoginDTO loginDTO) {
         return modelMapper.map(loginDTO, Login.class);
     }
 
+    /**
+     * Convertir lista de DAO a lista de dTO
+     * @param logins lista DAO
+     * @return lista DTO
+     */
     public List<LoginDTO> toDTO(List<Login> logins) {
         return logins.stream().map(this::toDTO).collect(Collectors.toList());
     }

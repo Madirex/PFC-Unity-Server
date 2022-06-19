@@ -1,11 +1,9 @@
 package com.madirex.gameserver.dto.shop;
 
 import com.madirex.gameserver.model.Item;
-import com.madirex.gameserver.model.User;
 import lombok.*;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 @Getter
@@ -14,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateShopDTO {
+    @NotBlank(message = "El nombre de la tienda no puede estar vacío")
     private String shopName;
-    private List<Item> items;
 }

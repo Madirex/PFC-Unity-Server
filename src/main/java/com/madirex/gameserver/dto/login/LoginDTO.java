@@ -17,7 +17,7 @@ public class LoginDTO {
     @NotBlank(message = "El token no puede ser vacío")
     private String token;
     @NotNull(message = "La fecha no puede ser nula")
-    private Date instance;
+    private Date instant;
     @NotNull(message = "El usuario no puede ser nulo")
     private LoginUserDTO user;
 }
