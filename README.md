@@ -1,7 +1,7 @@
 # PFC-Unity-Server
 
 ## Descripción
-Servidor creado en Spring Boot. El cliente es un juego de Unity.
+Servidor creado en Spring Boot, programado en Java. El cliente destino es un juego de Unity. Base de datos MariaDB lanzada en un Docker-Compose.
 
 ## Diagrama UML
 <p align="center">
