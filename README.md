@@ -4,10 +4,15 @@
 Servidor creado en Spring Boot. El cliente es un juego de Unity.
 
 ## Diagrama UML
-https://i.imgur.com/jnIVLe9_d.webp?maxwidth=760&fidelity=grand
+<p align="center">
+  <img src="https://i.imgur.com/jnIVLe9_d.webp?maxwidth=760&fidelity=grand"/>
+</p>
 
 ## Arquitectura
-https://i.imgur.com/4r1PwDf_d.webp?maxwidth=1000
+<p align="center">
+  <img src="https://i.imgur.com/4r1PwDf_d.webp?maxwidth=1000"/>
+</p>
+
 
 ## ⚠ Requisitos
 - Docker y Docker Compose (o ejecutar en H2).
